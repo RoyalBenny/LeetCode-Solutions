@@ -1,0 +1,31 @@
+#T: O(N) #S: O(1)
+
+class Solution:
+    def calculate(self, s: str) -> int:
+        sum = 0
+        symbol = '+'
+        s = s+'k'
+        val = 0
+        prevVal = 0
+        
+        for i in s:
+            if i == ' ':
+                continue
+            elif i.isdigit():
+                val = val*10+int(i)
+            else:
+                if symbol == '+':
+                    sum+=prevVal
+                    prevVal = val
+                elif symbol == '-':
+                    sum+=prevVal
+                    prevVal = -val
+                elif symbol == '*':
+                    prevVal*=val
+                else:
+                    temp  = prevVal/val
+                    prevVal = math.floor(temp) if temp>0 else math.ceil(temp)
+                val = 0
+                symbol = i
+                
+        return sum+prevVal

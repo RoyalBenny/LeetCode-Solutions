@@ -1,0 +1,46 @@
+#T: O(N) S:O(N)
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param s: a string
+    @return: a root of this tree
+    """
+    def str2tree(self, s: str) -> TreeNode:
+        # write your code here
+        stack = [TreeNode(-1)]
+        num = 0
+        signed = False
+        prevBracket = "("
+        for i in s:
+            if i == '-':
+                signed = True
+            elif i.isdigit():
+                num=num*10+int(i)
+            else:
+                if signed:
+                    num*=-1
+                node = TreeNode(num)
+                if prevBracket == '(':
+                    prevNode = stack[-1]
+                    if prevNode.left:
+                        prevNode.right = node
+                    else:
+                        prevNode.left = node
+                    stack.append(node)
+                    num=0
+                    signed = False
+                else:
+                    stack.pop(-1)
+                prevBracket = i
+        return stack[0].left

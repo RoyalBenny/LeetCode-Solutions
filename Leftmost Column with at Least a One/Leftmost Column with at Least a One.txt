@@ -1,0 +1,31 @@
+'''
+
+    You can't access the binary matrix directly.
+    
+    The method dimensions() takes no arguments and returns an array of two integers.
+    so, we call res = dimensions(), where res[0] = The number of rows and res[1] = The number of columns.
+	Calling the dimensions() more than once will be judged as the wrong answer and the program stops instantly.
+
+	The method get() two takes arguments say x and y and return the binaryMatrix[x][y].
+	So, element = get(x, y).
+	Calling the get() more than 2000 times will be judged as the wrong answer and the program stops instantly. 
+
+0 0 0 1 1
+0 0 0 0 0
+0 1 1 1 1
+0 0 1 1 1
+
+o/p - 1
+'''
+#T: O(N+M) S: O(1)
+def leftmostColumn(dimensions, get):
+    # write your code here
+    # return an integer denoting the answer
+    row,col = dimensions()
+    cRow, cCol = 0, col-1
+    while cRow<row and cCol>-1:
+        if get(cRow,cCol):
+            cCol-=1
+        else:
+            cRow+=1
+    return cCol+1 if cCol != col-1 else -1

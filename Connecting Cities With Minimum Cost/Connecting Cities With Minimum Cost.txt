@@ -1,0 +1,30 @@
+#T: O(ELogE) S:O(E)
+from heapq import heapify,heappush,heappop
+from collections import defaultdict
+def getMinimumCost(n, m, connections):
+    # Write your code here.
+    G = defaultdict(list)
+    for s,d,c in connections:
+        G[s].append((d,c))
+        G[d].append((s,c))
+    visited = set()
+    if m==0:
+        return 0 if n <=1 else -1
+    source = connections[0][0]
+    heap = []
+    
+    def addToHeap(s):
+        for d,c  in G[s]:
+            if d not in visited:
+                heappush(heap,(c,d))
+    addToHeap(source)
+    visited.add(source)
+    total = 0
+    while heap:
+        cost,source = heappop(heap)
+        if source in visited:
+            continue
+        visited.add(source)
+        total+=cost
+        addToHeap(source)
+    return total if len(visited) == n else -1

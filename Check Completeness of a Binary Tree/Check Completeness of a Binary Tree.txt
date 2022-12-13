@@ -1,0 +1,59 @@
+# Solution 1 Better T:O(V) S:O(V) V - vertices
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+class Solution:
+    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
+        isComplete = True
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            if node == None:
+                isComplete = False
+                continue
+            if isComplete:
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                return False
+        return True
+
+
+#Time: O(V+E)
+#Space: O(V+E)
+#tree
+#https://leetcode.com/problems/check-completeness-of-a-binary-tree/
+# Definition for a binary tree node.
+# class TreeNode:
+#     def _init_(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    def __init__(self):
+        self.incomplete = False
+    
+    def check(self,queue):
+        i = 0
+        while i<len(queue):
+            node = queue[i]
+            if not node.left and not node.right:
+                self.incomplete = True
+            elif node.left and node.right and not self.incomplete:
+                queue.append(node.left)
+                queue.append(node.right)
+            elif node.left and not self.incomplete:
+                self.incomplete = True
+                queue.append(node.left)
+            else:
+                return False
+            i+=1
+        return True
+    
+    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
+        return self.check([root])

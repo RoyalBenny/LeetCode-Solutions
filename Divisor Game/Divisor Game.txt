@@ -1,0 +1,19 @@
+class Solution:
+    def divisorGame(self, n: int) -> bool:
+
+        memo = dict()
+        
+        def backtrack(n,turn):
+            if n == 1:
+                return turn  # True means A, False means B
+            if (n,turn) in memo:
+                return memo[(n,turn)]
+            for i in range(1,n):
+                if n%i == 0:
+                    memo[(i,turn)] = backtrack(n-i,not turn)
+                    if memo[(i,turn)]:
+                        return True
+                return False
+        return backtrack(n,False)
+                    
+            

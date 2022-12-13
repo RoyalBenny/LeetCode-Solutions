@@ -1,0 +1,62 @@
+# T: O(N) S: O(N) 
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        leftMin= leftMax = 0
+        for i in s:
+            if i == '(':
+                leftMin+=1
+                leftMax+=1
+            elif i == ")":
+                leftMin-=1
+                leftMax-=1
+            else:
+                leftMin-=1
+                leftMax+=1
+            if leftMax<0:
+                return False
+            if leftMin<0:
+                leftMin = 0
+        return leftMin == 0
+
+#T: O(N^3) S: O(N^2)
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        memo = dict()
+        def backtrack(pos,openCount):
+            if openCount<0:
+                return False
+            if pos == len(s):
+                return openCount == 0
+            if (pos,openCount) in memo:
+                return memo[(pos,openCount)]
+            valid = False
+            if s[pos] == "(":
+                valid= backtrack(pos+1,openCount+1)
+            elif s[pos] == ")":
+                valid = backtrack(pos+1,openCount-1)
+            else:
+                
+                valid = backtrack(pos+1,openCount+1) or backtrack(pos+1,openCount) or backtrack(pos+1,openCount-1)
+            memo[(pos,openCount)] = valid
+            return valid
+        return backtrack(0,0)
+
+#T: O(N*3^N) S: O(3^N)
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        
+        def backtrack(pos,openCount):
+            if openCount<0:
+                return False
+            if pos >= len(s):
+                return openCount == 0
+            while pos < len(s) and s[pos] != '*':
+                openCount += 1 if s[pos] == "(" else -1 
+                if openCount<0:
+                    return False
+                pos+=1
+            if pos<len(s) and s[pos] == '*':
+                pos+=1
+                return backtrack(pos,openCount+1) or backtrack(pos,openCount)  or backtrack(pos,openCount-1)
+            return openCount == 0
+        return backtrack(0,0)

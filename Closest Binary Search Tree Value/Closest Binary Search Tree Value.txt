@@ -1,0 +1,18 @@
+def findClosestValueInBst(tree, target):
+    minValue = tree.value
+    while tree:
+        if abs(tree.value-target) < abs(target-minValue):
+            minValue = tree.value
+        if (target - tree.value) < 0:
+              tree = tree.left
+        else:
+              tree = tree.right
+    return minValue
+
+
+# This is the class of the input tree. Do not edit.
+class BST:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None

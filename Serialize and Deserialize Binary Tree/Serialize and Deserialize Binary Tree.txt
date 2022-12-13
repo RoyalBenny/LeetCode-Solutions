@@ -1,0 +1,58 @@
+#T: O(N) S:O(N)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        output= ""
+        queue = collections.deque([root])
+        while queue:
+            node = queue.popleft()
+            if node:
+                output+=str(node.val)+','
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                output+='N,'
+        return output
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        arr = data.split(',')
+        if arr[0] == 'N':
+            return None
+        root = TreeNode(int(arr[0]))
+        queue = collections.deque([root])
+        for i in range(1,len(arr),2):
+            if not queue:
+                break
+            node = queue.popleft()
+            left = arr[i]
+            right = arr[i+1]
+            if left!='N':
+                node.left = TreeNode(int(left))
+                queue.append(node.left)
+            if right!='N':
+                node.right = TreeNode(int(right))
+                queue.append(node.right)
+        return root
+        
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))

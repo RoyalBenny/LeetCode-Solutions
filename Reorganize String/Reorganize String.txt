@@ -1,0 +1,18 @@
+# T: O(NlogN) S:O(N)
+from heapq import heapify,heappop,heappush
+from collections import Counter
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counts = Counter(s)
+        output = ""
+        heap = [(val*-1,k) for k,val in counts.items()]
+        heapify(heap)
+        while len(heap)>=2:
+            fCount,fi = heappop(heap)
+            seCount,se = heappop(heap)
+            output+=fi+se
+            if fCount !=-1: heappush(heap,(fCount+1,fi))
+            if seCount !=-1: heappush(heap,(seCount+1,se))
+        if heap:
+            return "" if heap[0][0] != -1 else output+heap[0][1]
+        return output

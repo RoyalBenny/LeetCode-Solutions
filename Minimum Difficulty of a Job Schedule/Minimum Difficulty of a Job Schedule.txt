@@ -1,0 +1,18 @@
+#T: O(ND) S:O(ND)
+class Solution:
+    def minDifficulty(self, jobDifficulty: List[int], d: int) -> int:
+        n = len(jobDifficulty)
+        if d>n: return -1
+        @cache
+        def backtrack(index,remDays):
+            if index== n:
+                return 0 if remDays == 0 else float('inf')
+            if remDays<=0:
+                return float('inf')
+            maxD = 0
+            minD = float('inf')
+            for i in range(index,n):
+                maxD = max(maxD,jobDifficulty[i])
+                minD = min(minD,maxD+backtrack(i+1,remDays-1))
+            return minD
+        return backtrack(0,d)

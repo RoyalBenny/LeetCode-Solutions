@@ -1,0 +1,29 @@
+#T: O(N) S:O(20000) = O(1) bucket sort
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        bucket = [0]*(20001)
+        for i in nums:
+            bucket[10000+i]+=1
+        count = 0
+        for i in range(20000,-1,-1):
+            count+=bucket[i]
+            if count>=k:
+                return i-10000
+
+#Solution using Quick Select: T:O(N) S:O(1)
+# Worst case of an quick select is O(N**2)
+class Solution:
+    def quickselect(self,left,right,pos,nums):
+        pivot,j = nums[right],left
+        for i in range(left,right):
+            if pivot>=nums[i]:
+                nums[j],nums[i] = nums[i],nums[j]
+                j+=1
+        nums[j],nums[right] = nums[right],nums[j]
+        if j>pos: return self.quickselect(left,j-1,pos,nums)
+        elif j<pos: return self.quickselect(j+1,right,pos,nums)
+        else: return nums[j]
+        
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        pos = len(nums)-k
+        return self.quickselect(0,len(nums)-1,pos,nums)

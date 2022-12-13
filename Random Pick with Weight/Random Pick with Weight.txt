@@ -1,0 +1,24 @@
+#T: O(log N) S: O(1)
+class Solution:
+
+    def __init__(self, w: List[int]):
+        self.total = [w[0]]
+        for i in w[1:]:
+            self.total.append(self.total[-1]+i)
+            
+
+    def pickIndex(self) -> int:
+        randomValue = random.random()*self.total[-1]
+        l,r = 0,len(self.total)-1
+        while l<r:
+            mid = (l+r)//2
+            if self.total[mid]<randomValue:
+                l=mid+1
+            else:
+                r=mid
+        return l
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()

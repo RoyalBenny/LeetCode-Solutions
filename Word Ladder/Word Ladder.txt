@@ -1,0 +1,27 @@
+#T:O(M*N^2) S:O(M)
+class Solution:
+    def ladderLength(self, bw: str, ew: str, wordList: List[str]) -> int:
+        if ew not in wordList: return 0
+        wordList.append(bw)
+        seq = defaultdict(list)
+        for w in wordList:
+            for i in range(len(w)):
+                pattern = w[:i]+'*'+w[i+1:]
+                seq[pattern].append(w)
+        
+        q = deque([bw])
+        visit = set([bw])
+        change = 0
+        while q:
+            change+=1
+            for _ in range(len(q)):
+                word = q.popleft()
+                if word == ew:
+                    return change
+                for i in range(len(word)):
+                    pattern = word[:i]+'*'+word[i+1:]
+                    for s in seq[pattern]:
+                        if s not in visit:
+                            visit.add(s)
+                            q.append(s)
+        return 0

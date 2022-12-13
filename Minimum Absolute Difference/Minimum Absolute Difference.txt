@@ -1,0 +1,23 @@
+#Time: O(nlogn)
+#Space: O(output)
+#array
+#https://leetcode.com/problems/minimum-absolute-difference/
+
+class Solution:
+    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+        i,j=0,0
+        output = []
+        arr.sort()
+        min = float('Inf')
+        while i < len(arr) and j< len(arr):
+            diff = abs(arr[i]-arr[j])
+            if diff == min:
+                output.append([arr[i],arr[j]])
+            elif  diff !=0 and diff< min:
+                min = diff
+                output = [[arr[i],arr[j]]]
+            if arr[i]< arr[j]:
+                i+=1
+            else:
+                j+=1
+        return output

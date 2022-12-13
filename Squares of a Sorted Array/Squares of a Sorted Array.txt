@@ -1,0 +1,39 @@
+# Solution Roval T:O(N) S:O(N)
+# 25-10-2022
+
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        arr = [0]*len(nums)
+        l,r = 0,len(nums)-1
+        pos = r
+        while l<=r:
+            if abs(nums[l])>abs(nums[r]):
+                arr[pos] = nums[l]**2
+                l+=1
+            else:
+                arr[pos] = nums[r]**2
+                r-=1
+            pos-=1
+        return arr
+#T:O(N) S:O(N)
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        for r in range(len(nums)):
+            if nums[r]>=0:
+                break
+        l = r-1
+        output = []
+        while l>=0 and r<len(nums):
+            if nums[l]**2<=nums[r]**2:
+                output.append(nums[l]**2)
+                l-=1
+            else:
+                output.append(nums[r]**2)
+                r+=1
+        while l>=0:
+            output.append(nums[l]**2)
+            l-=1
+        while r<len(nums):
+            output.append(nums[r]**2)
+            r+=1
+        return output

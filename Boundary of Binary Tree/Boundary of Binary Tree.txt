@@ -1,0 +1,30 @@
+
+#T: O(N) S: O(N)
+class Solution:
+   
+    def boundary_of_binary_tree(self, root: TreeNode) -> List[int]:
+        # write your code here
+        output = []
+
+        def leftBoundary(node,flag):
+            if not node:
+                return
+            if (not node.left and not node.right) or flag:
+                output.append(node.val)
+            leftBoundary(node.left,flag)
+            leftBoundary(node.right,flag and not node.left)
+        
+        def rightBoundary(node,flag):
+            if not node:
+                return
+            rightBoundary(node.left,flag and not node.right)
+            rightBoundary(node.right,flag)
+            if (not node.left and not node.right) or flag:
+                output.append(node.val)
+
+        if not root:
+            return []
+        output.append(root.val)
+        leftBoundary(root.left,True)
+        rightBoundary(root.right,True)
+        return output

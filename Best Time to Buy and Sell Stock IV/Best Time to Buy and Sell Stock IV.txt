@@ -1,0 +1,16 @@
+#T:O(N^2) S:O(N^2)
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        memo = {}
+        def backtrack(index,k,minPrice):
+            if index == len(prices) or k == 0:
+                return 0
+            if (index,k,minPrice) in memo:
+                return memo[(index,k,minPrice)]
+            if prices[index]>minPrice:
+                memo[(index,k,minPrice)] = max(prices[index]-minPrice + backtrack(index+1,k-1,float('inf')),backtrack(index+1,k,minPrice))
+            else:
+                memo[(index,k,minPrice)] = backtrack(index+1,k,prices[index])
+            return memo[(index,k,minPrice)]
+        
+        return backtrack(0,k,float('inf'))

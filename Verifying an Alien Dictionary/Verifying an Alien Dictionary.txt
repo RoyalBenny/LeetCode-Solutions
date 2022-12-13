@@ -1,0 +1,37 @@
+#Time: O(NM)
+#Space: O(1)
+#string
+#https://leetcode.com/problems/verifying-an-alien-dictionary/
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        orderDict = dict((key,index) for index,key in enumerate(order))
+        for i in range(len(words)-1):
+            w1,w2 = words[i],words[i+1]
+            for j in range(len(w1)):
+                if j==len(w2): return False
+                if w1[j] != w2[j]:
+                    if orderDict[w1[j]]>orderDict[w2[j]]: return False
+                    break
+        return True
+
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        if len(words) == 1:
+            return True
+        ordD = dict((val,index) for index,val in enumerate(order))
+        i = 0
+        isDiff = False
+        while i<len(words)-1:
+            l = 0
+            w1,w2 = words[i],words[i+1]
+            while l<len(w1) and l<len(w2):
+                if ordD[w1[l]]> ordD[w2[l]]:
+                    return False
+                elif ordD[w1[l]]<ordD[w2[l]]:
+                    isDiff = True
+                    break
+                l+=1
+            if not isDiff  and len(w1)>len(w2):
+                return False
+            i+=1
+        return True

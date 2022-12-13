@@ -1,0 +1,33 @@
+#Time: O(nlogK)
+#Space: O(n)
+#heap
+#https://leetcode.com/problems/top-k-frequent-words/
+from collections import Counter
+from heapq import heapify,_heappop_max,_heapify_max,heappop
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        output = []
+        word_dict = Counter(words)
+        count_dict = dict()
+        for word,count in word_dict.items():
+            if count in count_dict:
+                count_dict[count].append(word)
+            else:
+                count_dict[count] = [word]
+        
+        counts = list(count_dict.keys())
+        _heapify_max(counts)
+        
+        while k >0 and counts:
+       
+            count = _heappop_max(counts)
+            if len(count_dict[count]) <= k:
+                count_dict[count].sort()
+                output+=count_dict[count]
+                k-=len(count_dict[count])
+            else:
+                heapify(count_dict[count])
+                while k > 0:
+                    output.append(heappop(count_dict[count]))
+                    k-=1
+        return output

@@ -1,0 +1,12 @@
+#T: O(N) S: O(N)
+#dynamic programming
+#https://leetcode.com/problems/house-robber/
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)<=2:
+            return max(nums)
+        maxProfit = nums[0]
+        for i in range(2,len(nums)):
+            nums[i]=maxProfit+nums[i]
+            maxProfit = max(maxProfit,nums[i-1])
+        return max(nums[-1],maxProfit)

@@ -1,0 +1,19 @@
+#T: O(N) S:O(D)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        def backtrack(node,greatest):
+            if not node:
+                return 0
+            if node.val>=greatest:
+                return 1+backtrack(node.left,node.val)+backtrack(node.right,node.val)
+            return backtrack(node.left,greatest)+backtrack(node.right,greatest)
+        return backtrack(root,float('-inf'))
+'''
+[5,6,4,2,null,11,null,1,8,6,8,null,12,null,null,9,null,null,null]
+'''

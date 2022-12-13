@@ -1,0 +1,14 @@
+#T: O(N^2 M^2) S: O(N)
+class Solution:
+    
+    def multiply(self, a: List[List[int]], b: List[List[int]]) -> List[List[int]]:
+        # write your code here
+        ab = []
+        for row in a:
+            ab.append([])
+            for i in range(len(b[0])):
+                sum = 0
+                for j in range(len(b)):
+                    sum+= row[j]* b[j][i]
+                ab[-1].append(sum)
+        return ab

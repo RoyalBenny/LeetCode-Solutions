@@ -1,0 +1,23 @@
+#T: O(logN) S: O(1)
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n==0:
+            return 1
+        if x == 0:
+            return 0
+        ans = 1
+        temp = n
+        n = abs(n)
+        while n:
+            res,a = x,1
+            while a*2<=n:
+                res*=res
+                a*=2
+            n-=a
+            ans*=res
+        return ans if temp>0 else 1/ans
+
+#T: O(N) 
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        return float("{:.5f}".format(x**n))

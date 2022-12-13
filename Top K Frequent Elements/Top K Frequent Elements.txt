@@ -1,0 +1,11 @@
+#T:O(KlogN) S:O(N)
+from heapq import heapify,heappop
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        counter = Counter(nums)
+        heap = [(-count,num) for num,count in counter.items()]
+        heapify(heap)
+        output = []
+        for i in range(k):
+            output.append(heappop(heap)[1])
+        return output

@@ -1,0 +1,22 @@
+#T: O(N) S: O(1) sliding window
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        maxProduct = float('-inf')
+        start = end = 0
+        product = 1
+        while start<len(nums):
+            while  end<len(nums) and nums[end]:
+                product*=nums[end]
+                maxProduct = max(product,maxProduct)
+                end+=1
+            while start<end-1:
+                product//=nums[start]
+                maxProduct = max(product,maxProduct)
+                start+=1
+            if end<len(nums) and not nums[end] and maxProduct<0:
+                maxProduct = 0
+            product = 1
+            end = start = end+1
+            
+        return maxProduct

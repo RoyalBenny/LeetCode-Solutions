@@ -1,0 +1,17 @@
+#T: O(N) S:O(N)
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        openC,closeC = [],[]
+        for index,ch in enumerate(s):
+            if ch == '(':
+                openC.append(index)
+            elif ch == ')' and openC:
+                openC.pop(-1)
+            elif ch == ')':
+                closeC.append(index)
+        sList = list(s)
+        for index in openC:
+            sList[index] = '#'
+        for index in closeC:
+            sList[index] = '#'
+        return "".join(filter(lambda x: x!='#',sList))

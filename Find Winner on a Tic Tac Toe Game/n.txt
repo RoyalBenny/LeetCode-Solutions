@@ -1,0 +1,59 @@
+#Time: O(N)
+#Sapce: O(1)
+#matrix
+#https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/
+class Solution:
+    def tictactoe(self, moves: List[List[int]]) -> str:
+        
+        m = self.createMatrix(moves)
+        isPending = False
+        for i in range(3):
+            row_out = self.whoWins(m[i][0],m[i][1],m[i][2])
+            col_out = self.whoWins(m[0][i],m[1][i],m[2][i])
+            
+            if row_out != 'Pending' and row_out != 'Draw':
+                return row_out
+            elif row_out == 'Pending':
+                isPending = True
+            
+            if col_out != 'Pending' and col_out != 'Draw':
+                return col_out
+            elif col_out == 'Pending':
+                isPending = True
+                
+        topDownDig = self.whoWins(m[0][0],m[1][1],m[2][2])
+        if topDownDig != 'Pending' and topDownDig != 'Draw':
+                return topDownDig
+        elif topDownDig == 'Pending':
+                isPending = True
+                
+        bottomUpDig = self.whoWins(m[0][2],m[1][1],m[2][0])
+        if bottomUpDig != 'Pending' and bottomUpDig != 'Draw':
+                return bottomUpDig
+        elif bottomUpDig == 'Pending':
+                isPending = True
+                
+        return 'Pending' if isPending else 'Draw'
+                
+        
+    
+    def createMatrix(self,moves):
+        count = 0
+        matrix = [[None]*3 for _ in range(3)]
+        for x,y in moves:
+            if count%2 == 0:
+                matrix[x][y] = 0
+            else:
+                matrix[x][y] = 1
+            count+=1
+        return matrix
+    
+    def whoWins(self,x,y,z):
+        if  x == None or  y == None or  z == None:
+            return  'Pending'
+        elif x+y+z == 0:
+            return 'A'
+        elif x+y+z == 3:
+            return 'B'
+        return 'Draw'
+            

@@ -1,0 +1,18 @@
+#T:O(B) S:O(B)
+class Solution:
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        def isDiffOne(w1,w2):
+            diff = 0
+            for i in range(8):
+                if w1[i]!=w2[i]: diff+=1
+            return diff == 1
+        queue = deque([[start,set()]])
+        while queue:
+            w,visited = queue.popleft()
+            for i,mut in enumerate(bank):
+                if i in visited:
+                    continue
+                if isDiffOne(w,mut):
+                    if mut == end: return len(visited)+1
+                    queue.append([mut,visited.union({i})])
+        return -1

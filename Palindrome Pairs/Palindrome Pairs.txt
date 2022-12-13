@@ -1,0 +1,24 @@
+#T: O(N* W^2) S:O(NW)
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        reverseDict = {}
+        for index,word in enumerate(words):
+            reverseDict[word[::-1]] = index
+        
+        output = []
+        for index,word in enumerate(words):
+            
+            if word in reverseDict and index!=reverseDict[word]:
+                output.append([index,reverseDict[word]])
+                
+            if word != "" and "" in reverseDict and word == word[::-1]:
+                output.append([index,reverseDict[""]])
+                output.append([reverseDict[""],index])
+                
+            for j in range(1,len(word)):
+                if word[j:] in reverseDict and word[:j] == word[:j][::-1]:
+                    output.append([reverseDict[word[j:]],index])
+                    
+                if word[:j] in reverseDict and word[j:] == word[j:][::-1]:
+                    output.append([index,reverseDict[word[:j]]])
+        return output

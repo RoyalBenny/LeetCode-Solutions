@@ -1,0 +1,52 @@
+#T:O(N) S:(H)
+#Bit
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+        
+        def dfs(node,countVal):
+            if not node:
+                return 0
+            countVal^= (1<<node.val)
+            if not node.left and not node.right :
+                if countVal == 0:
+                    return 1
+                return int(int(math.log(countVal,2)) == math.log(countVal,2))
+            return dfs(node.left,countVal)+dfs(node.right,countVal)
+             
+        return dfs(root,0)
+
+#T: O(N) S:(H)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+        countArray = [0]*(10)
+        def dfs(node,countArray):
+            if not node:
+                return 0
+            
+            countArray[node.val]+=1
+            if not node.left and not node.right :
+                isOdd = False
+                for i in countArray:
+                    if i%2 == 1 and isOdd:
+                        countArray[node.val]-=1
+                        return 0
+                    elif i%2==1:
+                        isOdd = True
+                countArray[node.val]-=1
+                return 1
+            output = dfs(node.left,countArray)+dfs(node.right,countArray)
+            countArray[node.val]-=1
+            return output
+        return dfs(root,countArray)

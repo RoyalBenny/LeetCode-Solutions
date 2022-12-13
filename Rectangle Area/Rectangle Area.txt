@@ -1,0 +1,31 @@
+#T:O(1) S:O(1)
+class Solution:
+    def computeArea(self, ax1: int, ay1: int, ax2: int, ay2: int, bx1: int, by1: int, bx2: int, by2: int) -> int:
+        total = abs(ax1-ax2)*abs(ay1-ay2)+ abs(bx1-bx2)*abs(by1-by2)
+        if ax1>bx1:
+            ax1,bx1 = bx1,ax1
+            ax2,bx2 = bx2,ax2
+            ay1,by1 = by1,ay1
+            ay2,by2 = by2,ay2
+        if not ax1<=bx1<=ax2:
+            return total
+        if not (ay1<=by1<=ay2 or by1<=ay1<=by2):
+            return total
+        ystart = max(ay1,by1)
+        yend = min(ay2,by2)
+        overlaped = abs(bx1-min(ax2,bx2))*abs(ystart-yend)
+        return total-overlaped
+#Solution
+#T:O(1) S:O(1)
+class Solution:
+    def computeArea(self, ax1: int, ay1: int, ax2: int, ay2: int, bx1: int, by1: int, bx2: int, by2: int) -> int:
+        left = max(ax1,bx1)
+        right = min(ax2,bx2)
+        bottom = max(ay1,by1)
+        top = min(by2,ay2)
+        xoverlap = right-left
+        yoverlap = top-bottom
+        total = abs(ax1-ax2)*abs(ay1-ay2)+ abs(bx1-bx2)*abs(by1-by2)
+        if xoverlap>0 and yoverlap>0:
+            return total - xoverlap*yoverlap
+        return total

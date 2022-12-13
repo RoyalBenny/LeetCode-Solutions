@@ -1,0 +1,16 @@
+#T: O(N!/(N-R)!) S:O(N!/(N-R)!)
+
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        output = []
+        def dfs(nums,per):
+            if not nums:
+                output.append(per)
+                return
+            for i in range(len(nums)):
+                if i!=0 and nums[i] == nums[i-1]:
+                    continue
+                dfs(nums[:i]+nums[i+1:],per+[nums[i]])
+        dfs(nums,[])
+        return output

@@ -1,0 +1,29 @@
+#T: O(N*2^N) S: O(N*N)
+#https://leetcode.com/problems/palindrome-partitioning/
+#backtraking
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        output = []
+        self.buildAllPartitions(s,[],output)
+        return output
+    
+    def buildAllPartitions(self,s,strings,output):
+        word = ''
+        if not s:
+            output.append(strings.copy())
+            return
+        for i in range(len(s)):
+            word+=s[i]
+            if self.isPalindrome(word):
+                strings.append(word)
+                self.buildAllPartitions(s[i+1:],strings,output)
+                strings.pop(-1)
+                
+    
+    def isPalindrome(self,s):
+        l,r = 0,len(s)-1
+        while l<=r:
+            if s[l] != s[r]:
+                return False
+            l,r = l+1,r-1
+        return True

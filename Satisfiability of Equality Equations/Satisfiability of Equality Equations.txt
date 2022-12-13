@@ -1,0 +1,28 @@
+#T:O(N) S:O(1)
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        parent = defaultdict(str)
+        # rank = defaultdict(int)
+        def findParent(a):
+            while parent[a]!='' and parent[a]!=a:
+                a = parent[a]
+            return a
+        for i in equations:
+            a,b = i[0],i[-1]
+            if i[1] == '=':
+                aParent = findParent(a)
+                bParent = findParent(b)
+                parent[bParent] = aParent
+        for i in equations:
+            if i[1] == '!':
+                aParent = findParent(i[0])
+                bParent = findParent(i[-1])
+                if aParent == bParent:
+                    return False
+        return True
+
+'''
+["a==b","b!=a"]
+["a==b","b!=c","c==d","d==a","a==b"]
+["a!=b","b!=c","c!=d","a==c","b!=d"]
+'''

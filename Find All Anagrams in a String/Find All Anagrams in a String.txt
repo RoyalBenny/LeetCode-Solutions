@@ -1,0 +1,23 @@
+#T: O(26*s)-> O(s) S: O(s+p)
+from collections import Counter
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        output = []
+        if len(p)>len(s):
+            return output
+        s+='~'
+        pCount = Counter(p)
+        winCount = Counter(s[:len(p)])
+        winStart = 0
+        for pos in range(len(p),len(s)):
+            isAnagram = True
+            for i in pCount:
+                if i not in winCount or winCount[i]!=pCount[i]:
+                    isAnagram = False
+                    break
+            if isAnagram:
+                output.append(winStart)
+            winCount[s[winStart]]-=1
+            winStart+=1
+            winCount[s[pos]] = 1 if s[pos] not in winCount else winCount[s[pos]]+1
+        return output

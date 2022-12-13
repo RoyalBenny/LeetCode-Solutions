@@ -1,0 +1,23 @@
+#T:(sqrt(n)) S:O(1)
+class Solution:
+    def numSquares(self, n):
+        if int(sqrt(n))**2 == n: return 1
+        for j in range(int(sqrt(n)) + 1):
+            if int(sqrt(n - j*j))**2 == n - j*j: return 2
+            
+        while n % 4 == 0: 
+            n >>= 2
+        if n % 8 == 7: return 4
+        return 3
+
+#T:O(N*sqrt(n)) S:O(N) TLE
+class Solution:
+    def numSquares(self, n: int) -> int:
+        dp = list(range(n+1))
+        count = 2
+        while count*count<=n:
+            i = count*count
+            for j in range(i,n+1):
+                dp[j] = min(dp[j],1+dp[j-i])
+            count+=1
+        return dp[-1]

@@ -1,0 +1,21 @@
+# T:O(N) S: O(1)
+from collections import deque,Counter
+from heapq import heapify,heappop,heappush
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        heap = []
+        queue = deque([])
+        counter = Counter(tasks)
+        for i in counter:
+            heap.append(counter[i]*-1)
+        heapify(heap)
+        time = 1
+        while heap or queue:
+            if heap:
+                task = heappop(heap)*-1
+                if task>1:
+                    queue.append((task-1,time+n))
+            if queue and queue[0][1] == time:
+                    heappush(heap,queue.popleft()[0]*-1)
+            time+=1
+        return time-1

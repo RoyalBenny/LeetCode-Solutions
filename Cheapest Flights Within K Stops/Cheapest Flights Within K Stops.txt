@@ -1,0 +1,42 @@
+#T: O(EK) S:O(VK)
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        costs = [float('inf')]*n
+        costs[src] = 0
+        
+        for _ in range(k+1):
+            temp = costs.copy()
+            for s,d,p in flights:
+                if costs[s] == float('inf'):
+                    continue
+                if costs[s]+p<temp[d]:
+                    temp[d] = costs[s]+p
+            costs = temp
+            
+        return -1 if costs[dst] == float('inf') else costs[dst]
+
+#T: O(V!) S:O(E)
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        graph = defaultdict(list)
+        for s,d,p in flights:
+            graph[s].append((d,p))
+        
+        def findPath(s,cost,stops,visited):
+            if stops>k:
+                return float('inf')
+            if s==dst:
+                return cost
+            visited.add(s)
+            minCost = float('inf')
+            for newSource,price in graph[s]:
+                if newSource in visited:
+                    continue
+                minCost = min(minCost,findPath(newSource,cost+price,stops+1,visited))
+            visited.remove(s)
+            return minCost
+        
+        cost = findPath(src,0,-1,set())
+        if cost == float('inf'):
+            return -1
+        return cost

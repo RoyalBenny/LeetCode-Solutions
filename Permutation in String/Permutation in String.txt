@@ -1,0 +1,19 @@
+#T:O(S2) S:O(S2)
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s2)<len(s1):
+            return False
+        countS1 = collections.Counter(s1)
+        countS2 = collections.Counter(s2[:len(s1)])
+        s2+='/'
+        def isPermutation():
+            for ch in countS1:
+                if countS2[ch]!=countS1[ch]:
+                    return False
+            return True
+        for i in range(len(s1),len(s2)):
+            if isPermutation():
+                return True
+            countS2[s2[i-len(s1)]]-=1
+            countS2[s2[i]]+=1
+        return False

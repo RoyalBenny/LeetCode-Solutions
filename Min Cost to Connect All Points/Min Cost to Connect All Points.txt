@@ -1,0 +1,23 @@
+#T: O(N^2) S: O(N)
+from heapq import heappop,heappush
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        def distance(a,b):
+            return abs(a[0]-b[0])+abs(a[1]-b[1])
+        totalCost = 0
+        points = [tuple(point) for point in points]
+        visited = set()
+        heap = [(0,points[0])]
+        def addToHeap(source):
+            for point in points:
+                if point in visited:
+                    continue
+                heappush(heap,(distance(source,point),point))
+        while len(visited)!= len(points):
+            cost,point = heappop(heap)
+            if point in visited:
+                continue
+            visited.add(point)
+            addToHeap(point)
+            totalCost+=cost
+        return totalCost

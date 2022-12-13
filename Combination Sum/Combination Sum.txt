@@ -1,0 +1,19 @@
+#T: O(2^N) S: O(N*N) 
+#https://leetcode.com/problems/combination-sum/
+#backtracking
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        output = []
+        n = len(candidates)
+        
+        def dfs(t,index,comb):
+            if t == 0:
+                output.append(comb)
+                return
+            for i in range(index,n):
+                if t- candidates[i] <0:
+                    return
+                dfs(t-candidates[i],i,comb+[candidates[i]])
+        dfs(target,0,[])
+        return output

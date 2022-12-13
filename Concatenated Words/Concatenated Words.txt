@@ -1,0 +1,75 @@
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        output = []
+        trie = collections.defaultdict(set)
+        for w in words:
+            trie[w[0]].add(w)
+        memo = set()
+        def backtrack(word,first):
+            if not word:
+                return True
+            if word in memo and not first:
+                return True
+            for i in range(len(word)-1,-1,-1):
+                if i==0 and first and word[i:] in trie[word[i]]:
+                    continue
+                if  word[i:] in trie[word[i]] and backtrack(word[:i],False):
+                    memo.add(word)
+                    return True
+            return False
+        for word in words:
+            if backtrack(word,True):
+                output.append(word)
+        return output
+                        
+                
+#DP
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        wordSet = set(words)
+        memo = {}
+        def dfs(word):
+            if word in memo:
+                return memo[word]
+            if not word:
+                return True
+            memo[word] = False
+            for i in range(1,len(word)):
+                prefix,sufix = word[:i],word[i:]
+                if prefix in wordSet and sufix in wordSet:
+                    memo[word] = True
+                    return True
+                elif prefix in wordSet and dfs(sufix):
+                    memo[word] = True
+                    return True
+                elif sufix in wordSet and dfs(prefix):
+                    memo[word] = True
+                    return True
+            return False
+        
+        return [word for word in words if dfs(word)]
+
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        
+        def isPresent(word,isFirst):
+            if not word:
+                return True
+            for w in wordDict[word[0]]:
+                if isFirst and w == word:
+                    continue
+                if  len(w)<=len(word) and w == word[:len(w)] and isPresent(word[len(w):],False):
+                    return True
+            return False
+        
+        wordDict = collections.defaultdict(list)
+        for w in words:
+            wordDict[w[0]].append(w)
+        output  = []
+        for word in words:
+            present = isPresent(word,True)
+            if present:
+                output.append(word)
+        return output

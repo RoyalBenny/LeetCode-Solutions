@@ -1,0 +1,25 @@
+#T:O(N) S:O(N)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        output = []
+        if not root:
+            return []
+        queue = [root]
+        while queue:
+            output.append([])
+            nextNodes = []
+            for node in queue:
+                output[-1].append(node.val)
+                for child in node.children:
+                    nextNodes.append(child)
+            queue = nextNodes
+        
+        return output

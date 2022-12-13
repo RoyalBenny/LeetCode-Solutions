@@ -1,0 +1,43 @@
+#Time: O(N)
+#Space: O(N)
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack =[0]
+        symbol = '+'
+        s = s+'k'
+        val = 0
+        
+        def evaluvate(a,b,sign):
+            match sign:          
+                case '+':
+                    return a+b
+                case '-':
+                    return -b
+                case '*':
+                    return a*b
+                case '/':
+                    ans =  a/b
+                    if ans >0:
+                        return math.floor(ans)
+                    return math.ceil(ans)
+                case default:
+                    return 0
+            
+        
+        for i in s:
+            if i == ' ':
+                continue
+            if i.isdigit():
+                val = val*10+int(i)
+            elif symbol != '+' and symbol != '-':
+                a = stack.pop(-1)
+                stack.append(evaluvate(a,val,symbol))
+                symbol = i
+                val = 0
+            else :
+                if symbol == '-':
+                    val = val*-1
+                stack.append(val)
+                val = 0
+                symbol = i
+        return sum(stack)

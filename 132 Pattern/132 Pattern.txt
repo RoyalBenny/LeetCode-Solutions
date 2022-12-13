@@ -1,0 +1,13 @@
+#T:O(N) S:O(N)
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        stack = []
+        minv = nums[0]
+        for n in nums:
+            while stack and stack[-1][0]<=n:
+                stack.pop(-1)
+            if stack and stack[-1][1]<n:
+                return True
+            stack.append((n,minv))
+            minv = min(minv,n)
+        return False

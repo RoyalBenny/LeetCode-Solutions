@@ -1,0 +1,33 @@
+#O(N^2) SO(N^2) DP using memoization
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        memo = {}
+        def backtrack(l,r):
+            if (l,r) in memo:
+                return memo[(l,r)]
+            if l>r:
+                return 0
+            if l == r:
+                return 1
+            if s[l] == s[r]:
+                memo[(l,r)] =  backtrack(l+1,r-1)+2
+                return memo[(l,r)]
+            memo[(l,r)] =  max(backtrack(l+1,r),backtrack(l,r-1))
+            return memo[(l,r)]
+        return backtrack(0,len(s)-1)
+
+#T: O(2^N) S: O(N*2^N) 
+# MLE
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        memo = {}
+        def backtrack(s,e):
+            if (s,e) in memo:
+                return memo[(s,e)]
+            
+            if not e:
+                memo[(s,e)] = len(s) if s == s[::-1] else 0
+                return memo[(s,e)]
+            memo[(s,e)]  = max(len(s) if s == s[::-1] else 0, backtrack(s,e[1:]),backtrack(s+e[0],e[1:]))
+            return memo[(s,e)]
+        return backtrack("",s)

@@ -1,0 +1,81 @@
+# T:O(logN) S: O(output len)
+
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        if num == 0:
+            return "Zero"
+        
+        def threeDigits(number):
+            ones = ["","One ","Two ","Three ","Four ","Five ","Six ","Seven ","Eight ","Nine "]
+            tens =["","","Twenty ","Thirty ","Forty ","Fifty ","Sixty ","Seventy ","Eighty ","Ninety "]
+            teens = ["Ten ","Eleven ","Twelve ","Thirteen ","Fourteen ","Fifteen ","Sixteen ","Seventeen ","Eighteen ","Nineteen "]
+            hundred = number//100
+            number%=100
+            ten = number//10
+            number%=10
+            res =""
+            if hundred:
+                res = ones[hundred]+"Hundred "
+            if ten and ten != 1:
+                res += tens[ten]
+            if ten == 1:
+                res += teens[number]
+            if ten !=1 and number:
+                res+= ones[number]
+            return res
+        
+        billion = num//(10**9)
+        num%=(10**9)
+        million = num//(10**6)
+        num%=(10**6)
+        thousand = num//(1000)
+        num%=1000
+        output=""
+        if billion:
+            output= threeDigits(billion)+"Billion "
+        if million:
+            output += threeDigits(million)+ "Million "
+        if thousand:
+            output+= threeDigits(thousand)+ "Thousand "
+        if num:
+            output+=threeDigits(num)
+        return output[:-1]
+
+#Time: O(lenght(N))
+#Space: O(output)
+#String
+#https://leetcode.com/problems/integer-to-english-words/
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        if not num:
+            return 'Zero'
+        digits = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ']
+        tens = ['','Ten ','Twenty ','Thirty ','Forty ','Fifty ','Sixty ','Seventy ','Eighty ','Ninety ']
+        teens = ['','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen ']
+        prefix = ['Billion ','Million ','Thousand ','']
+        output= ""
+        while num:
+            last_3 = num%1000
+            i,temp,prev = 1,'',0
+            while last_3:
+                last = last_3%10
+                if i == 1:
+                    temp = digits[last]
+                elif i == 2:
+                    if last == 1 and last*10+prev >10:
+                        temp = teens[prev]
+                    else:
+                        temp = tens[last]+temp
+                else:
+                    temp = digits[last]+'Hundred '+temp
+                last_3//=10
+                i+=1
+                prev = last
+            if temp:
+                output = temp+ prefix.pop(-1)+output
+            else:
+                prefix.pop(-1)
+            num//=1000
+            
+        return (output)[:-1]
+        

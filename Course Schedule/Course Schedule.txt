@@ -1,0 +1,34 @@
+#T: O(V+E) S: O(V+E)
+#https://leetcode.com/problems/course-schedule/
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        def createList(preq):
+            graph = dict()
+            for c1,c2 in preq:
+                if c1 in graph:
+                    graph[c1].append(c2)
+                else:
+                    graph[c1] = [c2]
+            return graph
+        
+        graph = createList(prerequisites)
+        visitedNode = set()
+        
+        def dfs(key,visited):
+            
+            if key in visited:
+                return False
+            if key not in graph or key in visitedNode:
+                return True
+            visited.add(key)
+            visitedNode.add(key)
+            for c in graph[key]:
+                if not dfs(c,visited):
+                    return False
+            visited.remove(key)
+            return True
+                
+        for course in graph:
+            if not dfs(course,set()):
+                return False
+        return True

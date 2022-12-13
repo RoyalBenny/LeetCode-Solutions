@@ -1,0 +1,34 @@
+#T: O(N) S:O(1)
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        minTime = i = j = 0
+        while i<len(colors):
+            currTotal = maxTime = 0
+            while j<len(colors) and colors[i] == colors[j]:
+                currTotal+=neededTime[j]
+                maxTime = max(maxTime,neededTime[j])
+                j+=1
+            minTime+= currTotal-maxTime
+            i=j
+        return minTime
+
+#T: O(N) S:O(N)
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        stack = []
+        minTime = 0
+        for c,t in zip(colors,neededTime):
+            if not stack: 
+                stack.append((c,t))
+                continue
+            while stack and stack[-1][0] == c and stack[-1][1]<t:
+                minTime+=stack.pop(-1)[1]
+            if stack and stack[-1][0] == c:
+                minTime+=t
+            else:
+                stack.append((c,t))
+        return minTime
+'''
+"abccccddcdbba"
+[1,2,4,5,1,2,8,8,2,1,4,5,4]
+'''

@@ -1,0 +1,22 @@
+#https://leetcode.com/problems/restore-ip-addresses/
+#backtracking
+
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        output = []
+        n = len(s)
+        if len(s)<4 or len(s)>12:
+            return []
+        def backtrack(i,dots,ip):
+            if not dots and i == n:
+                output.append(ip[:-1])
+            if not dots:
+                return
+            for j in range(i,min(i+3,n)):
+                newIP = s[i:j+1]
+                if j != i and newIP[0] == '0':
+                    continue
+                if int(newIP)<256:
+                    backtrack(j+1,dots-1,ip+newIP+'.')
+        backtrack(0,4,"")
+        return output

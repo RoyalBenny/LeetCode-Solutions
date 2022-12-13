@@ -1,0 +1,21 @@
+#T:O(NM) S:O(N+M)
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        num1 = num1[::-1]
+        num2 = num2[::-1]
+        if num1 == '0' or num2 == '0':return '0'
+        output = []
+        nextPos = 0
+        for i in num2:
+            carry=0
+            for jIndex,j in enumerate(num1):
+                if nextPos+jIndex>=len(output):
+                    output.append(0)
+                pos = nextPos+jIndex
+                output[pos] += int(i)*int(j)+carry
+                carry = (output[pos])//10
+                output[pos] = output[pos]%10
+            nextPos+=1
+            if carry:
+                output.append(carry)
+        return "".join(map(str,output))[::-1]

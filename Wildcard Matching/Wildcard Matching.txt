@@ -1,0 +1,50 @@
+#T: O(N^2) S:O(NM)
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        def backtrack(sIndex,pIndex):
+            if (sIndex,pIndex) in memo:
+                return memo[(sIndex,pIndex)]
+            if sIndex == len(s) and pIndex == len(p):
+                return True
+            if sIndex == len(s):
+                memo[(sIndex,pIndex)] = backtrack(sIndex,pIndex+1) if p[pIndex] == '*' else False
+                return memo[(sIndex,pIndex)]
+            if pIndex == len(p):
+                return False
+            if p[pIndex] == '?' or s[sIndex] == p[pIndex]:
+                memo[(sIndex,pIndex)] =  backtrack(sIndex+1,pIndex+1)
+                return memo[(sIndex,pIndex)]
+            if p[pIndex] == '*':
+                memo[(sIndex,pIndex)] =  backtrack(sIndex+1,pIndex) or backtrack(sIndex+1,pIndex+1) or backtrack(sIndex,pIndex+1)
+                return memo[(sIndex,pIndex)]
+            memo[(sIndex,pIndex)] = False
+            return False
+        ans= backtrack(0,0)
+        return ans
+'''
+"aa"
+"a"
+"abbcdc"
+"a*d"
+"aa"
+"a"
+"aa"
+"*"
+"cb"
+"?a"
+"adceb"
+"*a*b"
+""
+"******"
+""
+""
+"sdsds"
+""
+""
+"*"
+""
+"?"
+"bbbbbbbbaaabbaabbabaaaaaabbbababbbaaabbaabbbababbaaaa"
+"**a*bbaabb**bbab*a**"
+'''

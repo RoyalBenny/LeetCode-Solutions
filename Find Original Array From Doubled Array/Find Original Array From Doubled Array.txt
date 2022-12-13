@@ -1,0 +1,21 @@
+#T: O(NlogN) S:O(N)
+class Solution:
+    def findOriginalArray(self, changed: List[int]) -> List[int]:
+        if len(changed)%2!=0:
+            return []
+        counts = collections.Counter(changed)
+        keySorted = sorted(counts.keys())
+        output = []
+        for i in keySorted:
+            if counts[i] and i*2 in counts:
+                if i == 0 and counts[i]%2 == 0:
+                    output += [0]*(counts[i]//2)
+                elif i!=0 and counts[i] <= counts[i*2]:
+                    output += [i]*counts[i]
+                    counts[i*2] -=counts[i]
+                    counts[i] = 0
+                else:
+                    return []
+            elif counts[i]:
+                return []
+        return output

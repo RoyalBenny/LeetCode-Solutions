@@ -1,0 +1,19 @@
+#T:O(N) S:O(N)
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        increment = 1
+        if numRows == 1: return s
+        row = -1
+        rows =[[] for i in range(numRows)]
+        for i in s:
+            if row == 0:
+                increment = 1
+            
+            row+=increment
+            if row == numRows-1:
+                increment = -1
+            rows[row].append(i)
+        output = ""
+        for r in rows:
+            output+= "".join(r)
+        return output

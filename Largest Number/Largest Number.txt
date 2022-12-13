@@ -1,0 +1,12 @@
+#Time: O(nlogn)
+#Space:O(n)
+#sorting
+#https://leetcode.com/problems/largest-number/
+class Larger(str):
+    def __lt__(self,x):
+        return self+x > x+self
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        largestNum = ''.join(sorted(map(str,nums),key=Larger))
+        return '0' if largestNum[0] == '0' else largestNum

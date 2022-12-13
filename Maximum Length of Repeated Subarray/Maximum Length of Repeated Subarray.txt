@@ -1,0 +1,17 @@
+# Solution Roval T:O(NM) S:O(N)
+# 20-09-2022
+
+class Solution:
+    def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+        dp = [0]*(len(nums1)+1)
+        ans = 0
+        for index,val in enumerate(nums2):
+            temp = dp.copy()
+            for index2,val2 in enumerate(nums1):
+                if val==val2:
+                    temp[index2+1] = dp[index2]+1
+                    ans = max(ans,temp[index2+1])
+                else:
+                    temp[index2+1] = 0
+            dp = temp
+        return ans

@@ -1,0 +1,20 @@
+#T:O(N log N) S: O(N)
+#https://leetcode.com/problems/longest-increasing-subsequence/
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = []
+        for i in nums:
+            l,r = 0,len(dp)
+#keeping the dp array sorted
+            while l<r:
+                mid = (l+r)//2
+                if dp[mid]>=i:
+                    r=mid
+                else:
+                    l = mid+1
+                    
+            if l<len(dp):
+                dp[l] = i
+            else:
+                dp.append(i)
+        return len(dp)

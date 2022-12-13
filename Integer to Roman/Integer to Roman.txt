@@ -1,0 +1,32 @@
+#T: O(log(N)) S:O(logN)
+class Solution:
+    def intToRoman(self, num: int) -> str:
+
+        ints = [1,4,5,9,0]
+        romans1 = ['I','IV','V','IX']
+        romans2 = ['X','XL','L','XC']
+        romans3 = ['C','CD','D','CM']
+        
+        def helper(num,ints,romans):
+            output= ''
+            while num:
+                for i in range(len(ints)):
+                    if ints[i]>num:
+                        break
+                num-=ints[i-1]
+                output+=romans[i-1]
+            return output
+        
+        
+        digits4 = num//1000
+        num%=1000
+        digits3 = num//100
+        num%=100
+        digits2 = num//10
+        num%=10
+        
+        ans=helper(digits4,[1],['M'])
+        ans+=helper(digits3,ints,romans3)
+        ans+=helper(digits2,ints,romans2)
+        ans+=helper(num,ints,romans1)
+        return ans

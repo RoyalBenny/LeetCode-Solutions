@@ -1,0 +1,23 @@
+#T: O(N) S:(N)
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        edges = {(a,b) for a,b in connections}
+        corrected = set()
+        neighbours = defaultdict(list)
+        for a,b in connections:
+            neighbours[a].append(b)
+            neighbours[b].append(a)
+        reorder = 0
+        
+        def dfs(city):
+            nonlocal reorder
+            corrected.add(city)
+            for neighbour in neighbours[city]:
+                if neighbour in corrected:
+                    continue
+                if (neighbour,city) not in edges:
+                    reorder+=1
+                dfs(neighbour)
+        
+        dfs(0)
+        return reorder

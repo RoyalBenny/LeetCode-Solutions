@@ -1,0 +1,35 @@
+#T: O(N) S:O(D)
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        def createBST(start,end):
+            if start==end:
+                return None
+            mid = findMid(start,end)
+            return TreeNode(mid.val,createBST(start,mid),createBST(mid.next,end))
+            
+        
+        def findMid(start,end):
+            slow = start
+            fast = start.next
+            while fast and fast.next and fast!=end and fast.next!=end:
+                slow = slow.next
+                fast = fast.next.next
+            return slow
+        
+        return createBST(head,None)
+
+#T: O(N) S:O(N)
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        def createBST(arr):
+            if not arr:
+                return None
+            mid = (len(arr)-1)//2
+            return TreeNode(arr[mid],createBST(arr[:mid]),createBST(arr[mid+1:]))
+            
+        
+        nodes = []
+        while head:
+            nodes.append(head.val)
+            head = head.next
+        return createBST(nodes)

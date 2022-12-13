@@ -1,0 +1,25 @@
+#T: O(N) S:O(N)
+
+class Solution:
+    def decodeString(self, s: str) -> str:
+        def decode():
+            word=''
+            while stack[-1]!='[': word=stack.pop(-1)+word
+            num = ''
+            stack.pop(-1)
+            while stack and stack[-1].isdigit(): num = stack.pop(-1)+num
+            stack.append(word*int(num))
+        
+        stack = []
+        for i in s:
+            if i!= ']': stack.append(i)
+            else: decode()
+        return "".join(stack)
+'''
+"3[a]2[bc]"
+"3[a2[c]]"
+"2[abc]3[cd]ef"
+"abc3[cd]xyz"
+"100[leetcode]"
+"3[z]2[2[y]pq4[2[jk]e1[f]]]ef"
+'''

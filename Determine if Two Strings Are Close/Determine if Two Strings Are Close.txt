@@ -1,0 +1,33 @@
+#T:O(N) S:O(1)
+class Solution:
+    def closeStrings(self, word1: str, word2: str) -> bool:
+        if len(word1) != len(word2):
+            return False
+        w1C,w1S = Counter(word1),set(word1)
+        w2C,w2S = Counter(word2),set(word2)
+        if w1S != w2S:
+            return False
+        count1 = defaultdict(int)
+        count2 = defaultdict(int)
+        for key,val in w1C.items():
+            count1[val]+=1
+        for key,val in w2C.items():
+            count2[val]+=1
+        
+        return True if count1 == count2 else False
+
+# Solution Roval T:O(N) S:O(1)
+# 02-12-2022
+
+class Solution:
+    def closeStrings(self, word1: str, word2: str) -> bool:
+        if len(word1)!=len(word2):
+            return False
+        c1 = Counter(word1)
+        c2 = Counter(word2)
+        
+        if (set(c1.keys()) and set(c2.keys()))!= set(c1.keys()):
+            return False
+        counter1 = sorted(list(c1.values()))
+        counter2 = sorted(list(c2.values()))
+        return counter1 == counter2

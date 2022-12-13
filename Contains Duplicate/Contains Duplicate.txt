@@ -1,0 +1,16 @@
+#T:O(N) S:O(1)
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        pos = neg = 0
+        
+        for i in nums:
+            if i >=0:
+                if (pos& (1<<i)):
+                    return True
+                pos|= 1<<i
+            else:
+                i = abs(i)
+                if (neg & (1<<i)):
+                    return True
+                neg |= 1<<i
+        return False

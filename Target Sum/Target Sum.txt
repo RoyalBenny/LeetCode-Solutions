@@ -1,0 +1,17 @@
+#T: O(N*T) S:O(N*T) memorization
+#https://leetcode.com/problems/target-sum/
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        memory = {}
+        def findTargets(index,sum):
+            
+            if  index == len(nums):
+                return int(sum==target)
+            if (index,sum) in memory:
+                return memory[(index,sum)]
+            memory[(index,sum)] = (findTargets(index+1,sum+nums[index])+
+                                 findTargets(index+1,sum-nums[index]))
+                                 
+            return memory[(index,sum)]
+        total = findTargets(0,0)
+        return total

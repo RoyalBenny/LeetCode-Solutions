@@ -1,0 +1,19 @@
+#T: O(N*2^N) S: O(N*N)
+#https://leetcode.com/problems/letter-case-permutation/
+#backtracking
+class Solution:
+    def letterCasePermutation(self, s: str) -> List[str]:
+        output = []
+        
+        def permutation(s,word):
+            if not s:
+                output.append(word)
+                return
+            if s[0].isdigit():
+                permutation(s[1:],word+s[0])
+            else:
+                permutation(s[1:],word+ s[0].lower())
+                permutation(s[1:],word+s[0].upper())
+        
+        permutation(s,"")
+        return output

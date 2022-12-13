@@ -1,0 +1,13 @@
+#T:O(NLogN) S:(1)
+class Solution:
+    def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        properties.sort(key= lambda x:(-x[0],x[1]))
+        maxAttack = maxDefense = 0
+        count = 0
+        for attack,defense in properties:
+            if attack<maxAttack and defense < maxDefense:
+                count+=1
+            else:
+                maxAttack = attack
+                maxDefense = defense
+        return count

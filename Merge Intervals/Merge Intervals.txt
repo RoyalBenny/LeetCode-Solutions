@@ -1,0 +1,15 @@
+# T: O(NlogN) S:O(N) or O(logN)
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda x: x[0])
+        output = []
+        start,end = intervals[0]
+        for i,j in intervals[1:]:
+            if end<i:
+                output.append([start,end])
+                start,end = i,j
+            else:
+                end = max(end,j)
+        output.append([start,end])
+        return output

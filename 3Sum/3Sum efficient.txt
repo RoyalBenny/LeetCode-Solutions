@@ -1,0 +1,25 @@
+#Time: O(N*N)
+#Space:O(N)
+#array
+#https://leetcode.com/problems/3sum/
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        output = []
+        nums.sort()
+        for i in range(len(nums)):
+            if i > 0  and nums[i] == nums[i-1]:
+                continue
+            a,b = i+1,len(nums)-1
+            while a<b:
+                val = nums[i]+nums[a]+nums[b]
+                if  val == 0:
+                    output.append([nums[i],nums[a],nums[b]])
+                    a+=1
+                    while nums[a] == nums[a-1] and a<b:
+                        a+=1
+                elif val>0:
+                    b-=1
+                else:
+                    a+=1
+        return output
+                    

@@ -1,0 +1,21 @@
+#T: O(N) S:O(N)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        maxSum = float('-inf')
+        def backtrack(node):
+            nonlocal maxSum
+            if not node:
+                return 0
+            leftSum = backtrack(node.left)
+            rightSum = backtrack(node.right)
+            maxSum = max(maxSum,node.val+leftSum+rightSum,node.val+leftSum,node.val+rightSum,node.val)
+            return max(node.val+max(leftSum,rightSum),node.val)
+        backtrack(root)
+        return maxSum

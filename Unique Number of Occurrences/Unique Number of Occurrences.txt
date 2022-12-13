@@ -1,0 +1,10 @@
+#T:O(N) S:O(N)
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        count = Counter(arr)
+        unique = set()
+        for val in count.values():
+            if val in unique:
+                return False
+            unique.add(val)
+        return True

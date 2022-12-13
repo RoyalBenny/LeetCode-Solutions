@@ -1,0 +1,14 @@
+#Time: O(N)
+#Space: O(N)
+#Sorting
+#https://leetcode.com/problems/third-maximum-number/
+from heapq import _heapify_max,_heappop_max
+class Solution:
+    def thirdMax(self, nums: List[int]) -> int:
+        distinctNums = list(set(nums))
+        if len(distinctNums)<3:
+            return max(distinctNums)
+        _heapify_max(distinctNums)
+        _heappop_max(distinctNums)
+        _heappop_max(distinctNums)
+        return _heappop_max(distinctNums)

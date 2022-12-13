@@ -1,0 +1,38 @@
+# Solution Roval T:O(N) S:O(N)
+# 03-11-2022
+
+class Solution:
+    def longestPalindrome(self, words: List[str]) -> int:
+        counter = Counter(words)
+        output = 0
+        same = False
+        for word in counter.keys():
+            rev = word[::-1]
+            if rev in counter and word[0]!=word[1]:
+                minv = min(counter[word],counter[rev])
+                output+= (minv*2)
+                counter[word]-=minv
+                counter[rev]-=minv
+            elif word[0]==word[1]:
+                output+=(counter[word] if counter[word]%2==0 else counter[word]-1)
+                same |= counter[word]%2
+                counter[word]=0
+        output+= (1 if same else 0)
+        return output*2
+
+#T:O(N) S:O(N)
+class Solution:
+    def longestPalindrome(self, words: List[str]) -> int:
+        counter = Counter(words)
+        palindromeWordsCount = 0
+        isOddPal = False
+        maxD = 0
+        for key in counter:
+            if key == key[::-1]:
+                palindromeWordsCount+=counter[key] if counter[key]%2==0 else counter[key]-1
+                isOddPal |= counter[key]%2==1
+                counter[key] = 0
+            elif key[::-1] in counter:
+                maxD += min(counter[key],counter[key[::-1]])*2 
+                counter[key] = 0
+        return (maxD+palindromeWordsCount)*2+ (2 if isOddPal else 0)

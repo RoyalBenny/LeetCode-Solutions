@@ -1,0 +1,21 @@
+#T: O(2^N) S: O(2^N)
+#backtracking
+#https://leetcode.com/problems/subsets-ii/
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        distNums = sorted(list(set(nums)))
+        count = collections.Counter(nums)
+        n = len(distNums)
+        output = [[]]
+        
+        def dfs(index,subset):
+            for i in range(index,n):
+                if count[distNums[i]] != 0:
+                    subset.append(distNums[i])
+                    count[distNums[i]]-=1
+                    output.append(subset.copy())
+                    dfs(i,subset)
+                    subset.pop(-1)
+                    count[distNums[i]]+=1
+        dfs(0,[])
+        return output

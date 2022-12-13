@@ -1,0 +1,11 @@
+#Time: O(N)
+#Space: O(N)
+#string
+#https://leetcode.com/problems/reverse-words-in-a-string/
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        sList = s.split()
+        n = len(sList)-1
+        for i in range(0,(n//2)+1):
+            sList[i],sList[n-i] = sList[n-i],sList[i]
+        return " ".join(map(str,sList))

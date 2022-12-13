@@ -1,0 +1,28 @@
+#T: O(logN) S: O(H)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        def findLeftExtreme(node):
+            if not node:
+                return 0
+            return 1+findLeftExtreme(node.left)
+        
+        def findRightExtreme(node):
+            if not node:
+                return 0
+            return 1+findRightExtreme(node.right)
+        
+        def count(node):
+            if not node:
+                return 0
+            left,right = findLeftExtreme(node),findRightExtreme(node)
+            if left == right:
+                return 2**left -1
+            return 1+count(node.left)+count(node.right)
+        
+        return count(root)

@@ -1,0 +1,38 @@
+#T: O(N) S:O(1)
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        l=0; r= len(height)-1
+        total = 0
+        lMax = rMax = 0
+        while l<r:
+            if height[l]<height[r]:
+                if height[l]<lMax:
+                    total+=lMax-height[l]
+                else:
+                    lMax = height[l]
+                l+=1
+            else:
+                if height[r]<rMax:
+                    total+=rMax-height[r]
+                else:
+                    rMax = height[r]
+                r-=1
+        return total
+
+# T:O(N) S:O(N)
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        rightMax = [0]*len(height)
+        maxHeight = 0
+        for i in range(len(height)-1,-1,-1):
+            rightMax[i] = maxHeight
+            if maxHeight<height[i]:
+                maxHeight = height[i]
+        leftMax = 0
+        totalWater = 0
+        for index,h in enumerate(height):
+            if min(leftMax,rightMax[index])-h>0:
+                totalWater+= min(leftMax,rightMax[index])-h
+            leftMax = max(leftMax,h)
+        return totalWater

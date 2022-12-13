@@ -1,0 +1,14 @@
+#T: O(N) S:(1)
+class Solution:
+    def getMaxLen(self, nums: List[int]) -> int:
+        pos = neg = maxLen = 0
+        for i in nums:
+            if i>0:
+                pos+=1
+                neg = neg+1 if neg!=0 else 0
+            elif i<0:
+                pos,neg = neg+1 if neg>0 else 0,pos+1
+            else:
+                pos = neg = 0
+            maxLen = max(maxLen,pos)
+        return maxLen

@@ -1,0 +1,10 @@
+
+#T: O(N) S:O(1) 
+class Solution(object):
+    def canJump(self, nums):        
+        maxJump = 0
+        for i,val in enumerate(nums):
+            if i>maxJump:
+                return False
+            maxJump = max(maxJump,i+val)
+        return True

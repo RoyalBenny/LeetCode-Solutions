@@ -1,0 +1,5 @@
+#T: O(N) S:(N)
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        words  = s.split(' ')
+        return " ".join(map(lambda x: x[::-1],words))

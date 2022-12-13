@@ -1,0 +1,30 @@
+# Solution Roval T:O(sqrt(N)) T:O(1)
+# 01-11-2022
+
+class Solution:
+    def kthFactor(self, n: int, k: int) -> int:
+        f1,f2 = [],[]
+        for i in range(1,int(math.sqrt(n))+1):
+            if not n%i:
+                f1.append(i)
+                f2.append(n//i)
+        if f1[-1] == f2[-1]: f2.pop(-1)
+        factors = f1 + f2[::-1]
+        return factors[k-1] if k<=len(factors) else -1
+
+#T:O(sqrt(n)) S:O(N)
+class Solution:
+    def kthFactor(self, n: int, k: int) -> int:
+        front,back = [],[]
+        for i in range(1,n+1):
+            if back and back[-1] == i:
+                break
+            if n%i!=0:
+                continue
+            q = n//i
+            front.append(i)
+            back.append(q)
+            if i == q:
+                back.pop(-1)
+        if k>len(front)+len(back): return -1
+        return (front+back[::-1])[k-1]

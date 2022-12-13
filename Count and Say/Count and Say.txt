@@ -1,0 +1,20 @@
+#T:O(N^2) S:O(N^2)
+
+class Solution:
+    def countAndSay(self, n: int) -> str:
+        def buildSay(say):
+            say+='/'
+            newSay = ""
+            count = 1
+            for i in range(1,len(say)):
+                if say[i] == say[i-1]:
+                    count+=1
+                else:
+                    newSay+= str(count)+say[i-1]
+                    count = 1
+            return newSay
+        
+        say = "1"
+        for _ in range(1,n):
+            say = buildSay(say)
+        return say

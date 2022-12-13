@@ -1,0 +1,30 @@
+#T: O(N)
+#S: O(D)
+#15/07/2022
+#42ms
+#https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        output = None
+        max_depth = -1
+        
+        def dfs(node,depth):
+            if not node:
+                return depth
+            nonlocal max_depth
+            nonlocal output
+            left = dfs(node.left,depth+1)
+            right = dfs(node.right,depth+1)
+            max_depth = max( max_depth,left,right)
+            if max_depth == left and max_depth == right:
+                output = node
+            return max(left,right)
+        
+        dfs(root,0)
+        return output

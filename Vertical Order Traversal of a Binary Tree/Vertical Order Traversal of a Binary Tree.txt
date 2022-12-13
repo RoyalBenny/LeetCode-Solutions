@@ -1,0 +1,33 @@
+#T: O(rowLogrow*colLogcol) S:O(N)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from heapq import heapify,heappop
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        verticalDict = collections.defaultdict(dict)
+        
+        def dfs(x,y,node):
+            if not node:
+                return 
+            if x in verticalDict[y]:
+                verticalDict[y][x].append(node.val)
+            else:
+                verticalDict[y][x] = [node.val]
+            dfs(x+1,y-1,node.left)
+            dfs(x+1,y+1,node.right)
+        dfs(0,0,root)
+        heap = list(verticalDict.keys())
+        heapify(heap)
+        output = []
+        while heap:
+            key = heappop(heap)
+            rows = sorted(list(verticalDict[key]))
+            nodes = []
+            for r in rows:
+                nodes+=sorted(verticalDict[key][r])
+            output.append(nodes)
+        return output

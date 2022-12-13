@@ -1,0 +1,26 @@
+#Time: O(N)
+#Space: O(N)
+#string
+#https://leetcode.com/problems/valid-palindrome-ii/
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        def check(l,r,s):
+            while l <=r:
+                if s[l]!= s[r]:
+                    return False,l,r
+                l+=1
+                r-=1
+            return True,l,r
+        
+        l,r = 0, len(s)-1
+        output1,l1,r1 = check(l,r,s)
+        output2,l2,r2 = check(l1+1,r1,s)
+        output3,l3,r3 = check(l1,r1-1,s)
+        
+        
+            
+        return output1 or output2 or output3
+    
+    
+                
+                

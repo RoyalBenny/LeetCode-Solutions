@@ -1,0 +1,28 @@
+#T: O(V+E) S: O(V+E)
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        nodes = collections.defaultdict(list)
+        for (s,d), val in zip(equations,values):
+            nodes[s].append((d,val))
+            nodes[d].append((s,1/val))
+        
+        
+        def dfs(s,d,visited):
+            if s == d:
+                return 1.0
+            visited.add(s)
+            for node,val in nodes[s]:
+                if node not in visited:
+                    ans = dfs(node,d,visited)
+                    if ans!=-1:
+                        return ans*val
+            visited.remove(s)
+            return -1
+        
+        ans = []
+        for a,b in queries:
+            if a not in nodes or b not in nodes:
+                ans.append(-1.0)
+                continue
+            ans.append(dfs(a,b,set()))
+        return ans

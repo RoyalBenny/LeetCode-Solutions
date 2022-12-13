@@ -1,0 +1,93 @@
+
+# Solution Roval 
+# 19-10-2022
+
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products.sort()
+        output = []
+        trie = collections.defaultdict(list)
+        for i in products:
+            trie[i[0]].append(i)
+        words = trie[searchWord[0]]
+        pos = 0
+        while pos<len(searchWord):
+            temp = []
+            for word in words:
+                if len(word)>pos and word[pos]==searchWord[pos]:
+                    temp.append(word)
+            output.append(temp[:3])
+            words = temp
+            pos+=1
+        return output
+
+
+
+# Solution Roval T:O(NlogN N + M) S:O(N*M)
+# 25-08-2022
+
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products.sort()
+        i = 0
+        start = 0
+        end = len(products)
+        output = []
+        def printSuggestion(start,end):
+            count = 3
+            ans = []
+            while count and start<end:
+                ans.append(products[start])
+                start+=1
+                count-=1
+            return ans
+        while i<len(searchWord):
+            while start<end:
+                if i<len(products[start]) and products[start][i]==searchWord[i]:
+                    break
+                start+=1
+            while start<end:
+                if i<len(products[end-1]) and products[end-1][i]==searchWord[i]:
+                    break
+                end-=1
+            output.append(printSuggestion(start,end))
+            i+=1
+        return output
+
+# Solution Royal T:O(NlogN + N + M) S:O(N*M)
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        output = []
+        products.sort()
+        l = 0; r = len(products)-1
+        for i in range(0,len(searchWord)):
+            output.append([])
+            
+            while l<=r and (len(products[l])<=i or searchWord[i]!= products[l][i]):
+                l+=1
+            while l<=r and (len(products[r])<=i or searchWord[i] != products[r][i]):
+                r-=1
+            count = 0
+            while l<=r and count<3 and l+count<=r:
+                output[-1].append(products[l+count])
+                count+=1
+        return output
+
+# Solution Royal T: O(NlogN + N * M) S: O(N*M)
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        output = []
+        products.sort()
+        l = 0; r = len(products)-1
+        for i in range(1,len(searchWord)+1):
+            output.append([])
+            prefix = searchWord[:i]
+            while l<=r and (len(products[l])<i or prefix!= products[l][:i]):
+                l+=1
+            while l<=r and (len(products[r])<i or prefix != products[r][:i]):
+                r-=1
+            count = 0
+            while l<=r and count<3 and l+count<=r:
+                output[-1].append(products[l+count])
+                count+=1
+        return output

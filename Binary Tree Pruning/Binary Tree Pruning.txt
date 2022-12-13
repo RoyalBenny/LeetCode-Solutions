@@ -1,0 +1,22 @@
+#T: O(N) S:O(D)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution(object):
+    def pruneTree(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: Optional[TreeNode]
+        """
+        def backtrack(node):
+            if not node: return True
+            if backtrack(node.left): node.left =None
+            if backtrack(node.right): node.right=None
+            return not node.val and not node.left and not node.right
+        
+        if backtrack(root):
+            return None
+        return root

@@ -1,0 +1,16 @@
+#T: O(NM) S: O(1)
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        row,col = len(grid),len(grid[0])
+        
+        def calculate(r,c):
+            if not 0<=r<row or not 0<=c<col or grid[r][c] == 0:
+                return 0
+            grid[r][c] = 0
+            return calculate(r,c+1)+calculate(r,c-1)+calculate(r+1,c)+calculate(r-1,c)+1
+        maxArea = 0
+        for r in range(row):
+            for c in range(col):
+                if grid[r][c]:
+                    maxArea = max(maxArea,calculate(r,c))
+        return maxArea

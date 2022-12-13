@@ -1,0 +1,109 @@
+#T: O(NM) S:O(NM)
+#17-09-2022
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        ROWS,COLS = len(heights),len(heights[0])
+        pac,atl = set(),set()
+        
+        def dfs(r,c,visited,height):
+            if r<0 or c<0 or r==ROWS or c==COLS or heights[r][c]<height or (r,c)  in visited:
+                return
+            visited.add((r,c))
+            dfs(r+1,c,visited,heights[r][c])
+            dfs(r-1,c,visited,heights[r][c])
+            dfs(r,c+1,visited,heights[r][c])
+            dfs(r,c-1,visited,heights[r][c])
+        
+        for c in range(COLS):
+            dfs(0,c,pac,heights[0][c])
+            dfs(ROWS-1,c,atl,heights[ROWS-1][c])
+        
+        for r in range(ROWS):
+            dfs(r,0,pac,heights[r][0])
+            dfs(r,COLS-1,atl,heights[r][COLS-1])
+        return pac & atl
+
+# Solution Roval 
+# 31-08-2022
+
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        ans = set()
+        top,left,bottom,right = 0,0,len(heights)-1,len(heights[0])-1
+        def checker(x,y):
+            visited = set()
+            stack = [(x,y)]
+            pacific = atlantic = False
+            while stack:
+                temp = []
+                while stack:
+                    r,c = stack.pop(-1)
+                    visited.add((r,c))
+                    if (r,c) in ans:
+                        ans.add((x,y))
+                        return 
+                    if r-1<top or c-1 <left:
+                        pacific = True
+                    if r+1 > bottom or c+1 > right:
+                        atlantic = True
+                    if r-1>=top  and (r-1,c) not in visited and heights[r-1][c]<=heights[r][c] :
+                        temp.append((r-1,c))
+                    if c-1>=left and (r,c-1) not in visited and heights[r][c-1]<=heights[r][c] :
+                        temp.append((r,c-1))
+                    if r+1<=bottom and (r+1,c) not in visited and heights[r+1][c]<=heights[r][c]:
+                        temp.append((r+1,c))
+                    if c+1<=right and (r,c+1) not in visited and heights[r][c+1]<=heights[r][c]:
+                        temp.append((r,c+1))
+                stack = temp
+            if pacific and atlantic:
+                ans.add((x,y))
+            return 
+        
+        for i in range(len(heights)):
+            for j in range(len(heights[0])):
+                checker(i,j)
+        return ans
+
+#T: O(NM) S:O(NM)
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        output = []
+        memo = set()
+        def backtrack(x,y,visited):
+            if (x,y) in visited:
+                return (False,False)
+            if (x,y) in memo:
+                return True,True
+            pacific = atlantic = False
+            visited.add((x,y))
+            if x==0 or y==0:
+                pacific = True
+            if x == len(heights)-1 or y == len(heights[0])-1:
+                atlantic = True
+            if not (pacific and atlantic) and x>0 and heights[x-1][y]<=heights[x][y]:
+                p,a = backtrack(x-1,y,visited)
+                pacific = pacific or p
+                atlantic = atlantic or a
+            if not (pacific and atlantic) and y>0 and heights[x][y-1]<=heights[x][y]:
+                p,a = backtrack(x,y-1,visited)
+                pacific = pacific or p
+                atlantic = atlantic or a
+            if not (pacific and atlantic) and x<len(heights)-1 and heights[x+1][y]<=heights[x][y]:
+                p,a = backtrack(x+1,y,visited)
+                pacific = pacific or p
+                atlantic = atlantic or a
+            if not (pacific and atlantic) and y<len(heights[0])-1 and heights[x][y+1]<=heights[x][y]:
+                p,a = backtrack(x,y+1,visited)
+                pacific = pacific or p
+                atlantic = atlantic or a
+            if pacific and atlantic:
+                memo.add((x,y))
+            visited.remove((x,y))
+            return (pacific,atlantic)
+
+        for i in range(len(heights)):
+            for j in range(len(heights[0])):
+                p,a = backtrack(i,j,set())
+                if p and a:
+                    output.append([i,j])
+        return output

@@ -1,0 +1,22 @@
+#Time: O(logN)
+#Space: O(1)
+#bit
+#https://leetcode.com/problems/divide-two-integers/submissions/
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        
+        sign = True if (dividend>=0) == (divisor >=0) else False
+        dividend  = abs(dividend)
+        divisor = abs(divisor)
+        result = 0
+        D = divisor
+        while dividend-divisor>=0:
+            count = 1
+            while dividend - (divisor<<1) >=0:
+                count<<=1
+                divisor<<=1
+            result += count
+            dividend-=divisor
+            divisor = D 
+        result = result if sign else -result
+        return min((1<<31)-1,max((-1<<31),result))

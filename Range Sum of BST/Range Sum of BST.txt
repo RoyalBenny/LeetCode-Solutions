@@ -1,0 +1,22 @@
+#Time: O(N)
+#Space: O(D)
+#bst
+#https://leetcode.com/problems/range-sum-of-bst/
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rangeSumBST(self, node: Optional[TreeNode], low: int, high: int) -> int:
+        sum = 0
+        if not node:
+            return 0
+        if low<=node.val<=high:
+            sum+=node.val
+        if node.val>low:
+            sum+=self.rangeSumBST(node.left,low,high)
+        if node.val<high:
+            sum+=self.rangeSumBST(node.right,low,high)
+        return sum

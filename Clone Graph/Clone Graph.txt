@@ -1,0 +1,23 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+# T: O(V+E) S:O(V)
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return 
+        nodes = dict()
+        def bfs(node):
+            if node in nodes:
+                return nodes[node]
+            newNode = Node(node.val)
+            nodes[node] = newNode
+            for child in node.neighbors:
+                newNode.neighbors.append(bfs(child))
+            return newNode
+        bfs(node)
+        return nodes[node]

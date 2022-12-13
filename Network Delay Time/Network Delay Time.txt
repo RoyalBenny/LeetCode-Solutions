@@ -1,0 +1,22 @@
+#T: O(V+ELogV) S:(E+V)
+from heapq import heappush,heappop
+class Solution(object):
+    def networkDelayTime(self, times, n, k):
+        graph=defaultdict(list)
+        
+        for u,v,w in times:
+            graph[u].append((v,w))
+        visited=[float('inf')]*(n+1)
+        heap=[]
+        visited[k]=0
+        heappush(heap,(0,k))
+        while heap:
+            wt,node= heappop(heap)
+            for n,w in graph[node]:
+                if wt+w>= visited[n]:
+                    continue
+                visited[n]=wt+w  
+                heappush(heap,(wt+w,n))    
+        
+        maxv= max(visited[1:])
+        return -1 if maxv==float('inf') else maxv

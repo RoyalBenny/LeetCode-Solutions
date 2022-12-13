@@ -1,0 +1,10 @@
+#T:O(N) S:O(N)
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        dups = dict()
+        for index,val in enumerate(nums):
+            if val in dups:
+                if index-dups[val]<=k:
+                    return True
+            dups[val] = index
+        return False

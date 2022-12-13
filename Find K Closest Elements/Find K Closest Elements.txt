@@ -1,0 +1,55 @@
+#T: O(log N) S: O(1)
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        l,r = 0,len(arr)-k
+        while l<r:
+            mid = (l+r)//2
+            if x-arr[mid]>arr[mid+k]-x:
+                l = mid+1
+            else:
+                r = mid
+        return arr[l:l+k]
+
+#T: O(log N+ k ) S: O(1)
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        def binary():
+            l,r = 0,len(arr)-1
+            while l<r:
+                mid = (l+r)//2
+                if arr[mid] == arr[mid+1]:
+                    temp = mid+1
+                    while  temp<r and arr[temp] == arr[mid]:
+                        temp+=1
+                    if abs(arr[mid]-x)>abs(arr[temp]-x):
+                        l=temp
+                        continue
+                    temp = mid-1
+                    while temp>l and arr[mid] == arr[temp]:
+                        temp-=1
+                    if abs(arr[mid]-x)>abs(arr[temp]-x):
+                        r=temp
+                        continue
+                    l = mid
+                    break
+                if abs(arr[mid]-x)>abs(arr[mid+1]-x):
+                    l=mid+1
+                else:
+                    r=mid
+            return l
+        
+        left = right = binary()
+        right+=1
+        while left>=0 and right<len(arr) and k:
+            if abs(arr[left]-x)<=abs(arr[right]-x):
+                left-=1
+            else:
+                right+=1
+            k-=1
+        
+        if k and left>=0:
+            left-=k
+        if k and right <len(arr):
+            right+=k
+        
+        return arr[left+1:right]

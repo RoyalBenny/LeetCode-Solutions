@@ -1,0 +1,13 @@
+#Time: O(logN)
+#Space: O(1)
+#maths
+#https://leetcode.com/problems/factorial-trailing-zeroes/
+
+class Solution:
+    def trailingZeroes(self, n: int) -> int:
+        count = 0
+        powerOf5 = 5
+        while powerOf5 <=n:
+            count+= n//powerOf5
+            powerOf5*=5
+        return count

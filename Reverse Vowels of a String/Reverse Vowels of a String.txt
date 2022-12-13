@@ -1,0 +1,13 @@
+#T:O(N) S:O(N)
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        s =list(s)
+        vowels = set(['a','e','i','o','u','A','E','I','O','U'])
+        vIndices = []
+        for index,ch in enumerate(s):
+            if ch in vowels:
+                vIndices.append(index)
+        i=0
+        for i in range(len(vIndices)//2):
+            s[vIndices[i]],s[vIndices[len(vIndices)-i-1]] = s[vIndices[len(vIndices)-i-1]],s[vIndices[i]]
+        return "".join(s)

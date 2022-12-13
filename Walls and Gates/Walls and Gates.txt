@@ -1,0 +1,38 @@
+#T: O(NM) S: O(NM)
+#https://www.lintcode.com/problem/663/description
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param rooms: m x n 2D grid
+    @return: nothing
+    """
+    def walls_and_gates(self, room: List[List[int]]):
+        # write your code here
+        q = collections.deque()
+        visited = set()
+        rows,cols = len(room),len(room[0])
+        dist = 0
+        def addRoom(x,y):
+            if 0<=x<rows and 0<=y<cols and room[x][y]!=-1  and  (x,y) not in visited:
+                visited.add((x,y))
+                q.append([x,y])
+            
+        for r in range(rows):
+            for c  in range(cols):
+                if room[r][c] == 0:
+                    q.append([r,c])
+                    visited.add((r,c))
+        
+        while q:
+            for _ in range(len(q)):
+                r,c = q.popleft()
+                room[r][c] = dist
+
+                addRoom(r,c+1)
+                addRoom(r,c-1)
+                addRoom(r+1,c)
+                addRoom(r-1,c)
+            dist+=1

@@ -1,0 +1,8 @@
+#T: O(N) S:O(N)
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        remDict = {}
+        for i,val in enumerate(nums):
+            if target-val in remDict:
+                return [i,remDict[target-val]]
+            remDict[val] = i

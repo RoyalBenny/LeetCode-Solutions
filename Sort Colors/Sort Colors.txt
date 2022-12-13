@@ -1,0 +1,43 @@
+# T: O(N) S:O(1) - Roval
+
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        s,fs,fe = 0,0,len(nums)-1
+        while s<=fe:
+            if nums[s]==0:
+                nums[fs],nums[s] = nums[s],nums[fs]
+            elif nums[s]==2:
+                nums[fe],nums[s] = nums[s],nums[fe]
+            else:
+                s+=1
+            if nums[fs]==0:
+                fs+=1
+                s=max(fs,s)
+            if nums[fe]==2:
+                fe-=1
+
+# T: O(N) S:O(1)
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        pointer = pointer0 = 0
+        pointer2 = len(nums)-1
+        while pointer<=pointer2:
+            if nums[pointer0] ==0:
+                pointer0+=1
+                pointer = max(pointer,pointer0)
+            elif nums[pointer2] == 2:
+                pointer2-=1
+            elif nums[pointer] == 0:
+                nums[pointer],nums[pointer0] =  nums[pointer0],0
+                pointer0+=1
+            elif nums[pointer] == 2:
+                nums[pointer],nums[pointer2] = nums[pointer2],2
+                pointer2-=1
+            else:
+                pointer+=1

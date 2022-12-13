@@ -1,0 +1,14 @@
+#Roval
+#T: O(2^N) S: O(2^N)
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        ans = []
+        def subset(arr,temp):
+            ans.append(temp.copy())
+            for i in range(len(arr)):
+                if i and arr[i]==arr[i-1]:
+                    continue
+                subset(arr[i+1:],temp+[arr[i]])
+        subset(nums,[])
+        return ans

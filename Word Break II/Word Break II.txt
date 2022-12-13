@@ -1,0 +1,69 @@
+#T: O(NM*output) S:O(output)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        words = defaultdict(list)
+        for i in range(len(s)-1,-1,-1):
+            for word in wordDict:
+                if len(word)<=len(s)-i and word == s[i:i+len(word)]:
+                    if i+len(word) == len(s):
+                        words[i].append(word)
+                        continue
+                    for wrd in words[i+len(word)]:
+                        words[i].append(word+' '+wrd)
+        return words[0]
+
+
+#T: O(NM* Output) S:O(output+N) - Roval
+from collections import defaultdict
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        dp = [0]*(len(s)+1)
+        dp[-1] = 1
+        output = defaultdict(list)
+        output[len(dp)-1].append('')
+        for i in range(len(s)-1,-1,-1):
+            for word in wordDict:
+                if i+len(word)<len(dp) and dp[i+len(word)] and s[i:i+len(word)]==word:
+                    dp[i] = dp[i+len(word)]
+                    if i+len(word) == len(s):
+                        output[i].append(word)
+                    else:
+                        for temp in output[i+len(word)]:
+                            output[i].append(word+' '+temp)
+        return output[0]
+
+#T: O(NM*len(output) S: O(output+N)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        sLen = len(s)
+        dp = [0]*(len(s)+1)
+        dp[-1] = 1
+        outputDict = {}
+        def createWords(i,w):
+            nonlocal outputDict
+            if i not in outputDict:
+                outputDict[i] = []
+            if i+len(w) == sLen:
+                outputDict[i] = [w]
+                return 
+            if i+len(w) not in outputDict:
+                return 
+            for word in outputDict[i+len(w)]:
+                outputDict[i].append(w+' '+word)
+                
+        for i in range(len(s)-1,-1,-1):
+            for w in wordDict:
+                if len(w)<= sLen-i and w == s[i:i+len(w)]:
+                    dp[i] = dp[i+len(w)] or dp[i]
+                    if dp[i+len(w)] == 1: createWords(i,w)
+        return [] if 0 not in outputDict else outputDict[0]
+'''
+"aaaaaaa"
+["aaaa","aaa"]
+"catsanddog"
+["cat","cats","and","sand","dog"]
+"pineapplepenapple"
+["apple","pen","applepen","pine","pineapple"]
+"catsandog"
+["cats","dog","sand","and","cat"]
+'''

@@ -1,0 +1,52 @@
+#T: O(N) S:O(N)
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        count = 0
+        n = len(grid)
+        m = len(grid[0])
+        queue = []
+        def rotOrange():
+            nonlocal count
+            nonlocal queue
+            nonlocal fresh
+            while queue:
+                count+=1
+                newQueue = []
+                for x,y in queue:
+                    if 0<=x-1 and grid[x-1][y] == 1:
+                        fresh-=1
+                        grid[x-1][y] = 2
+                        newQueue.append((x-1,y))
+                    if x+1<n and grid[x+1][y] == 1:
+                        fresh-=1
+                        grid[x+1][y] = 2
+                        newQueue.append((x+1,y))
+                    if 0<=y-1 and grid[x][y-1] == 1:
+                        fresh-=1
+                        grid[x][y-1] = 2
+                        newQueue.append((x,y-1))
+                    if y+1<m and grid[x][y+1]==1:
+                        grid[x][y+1] = 2
+                        fresh-=1
+                        newQueue.append((x,y+1))
+                queue = newQueue
+
+        fresh = 0
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] == 2:
+                    queue.append((i,j))
+                elif grid[i][j] == 1:
+                    fresh+=1
+        if fresh == 0:
+            return 0
+        rotOrange()
+        if fresh > 0 :
+            return -1
+        return count -1 if count > 0 else 0
+'''
+[[2,1,1],[1,1,0],[0,2,1]]
+[[2,1,1],[0,1,1],[1,0,2]]
+[[0,2]]
+[[2,2,1],[2,1,1],[0,1,2]]
+'''

@@ -1,0 +1,14 @@
+#T: O(NlogN) S:O(N)
+from heapq import heappop,heappush
+class Solution:
+    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
+        engineers = sorted(zip(speed,efficiency), key = lambda x: -x[1])
+        heap = []
+        output =  heapSum = 0
+        for sp, eff in engineers:
+            if len(heap) == k:
+                heapSum-=heappop(heap)
+            heapSum+=sp
+            heappush(heap,sp)
+            output = max(output,heapSum*eff)
+        return output%(10**9+7)

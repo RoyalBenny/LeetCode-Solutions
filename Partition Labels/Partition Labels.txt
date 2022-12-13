@@ -1,0 +1,21 @@
+#T: O(N) S:O(1)
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        indicies = dict()
+        for index,char in enumerate(s):
+            if char in indicies:
+                indicies[char][1] = index
+            else:
+                indicies[char] = [index,index]
+        charLocs = sorted(indicies.values(),key = lambda x:x[0])
+        minL,maxL = charLocs[0]
+        output = []
+        for s,e in charLocs[1:]:
+
+            if maxL<s:
+                output.append(s-minL)
+                minL,maxL = s,e
+            elif maxL<e:
+                maxL = e
+        output.append(maxL-minL+1)
+        return output

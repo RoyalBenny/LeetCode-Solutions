@@ -1,0 +1,30 @@
+#T: O(2^(kN)) S: O(2^(kN)
+#https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
+        if sum(nums)%k:
+            return False
+        target = sum(nums)//k
+        nums.sort(reverse = True)
+        paths = {}
+        used = [False]*len(nums)
+        def backtrack(i,k,subsetSum):
+            if k == 0:
+                return True
+            currentPath = tuple(used)
+            if  currentPath in paths:
+                return paths[currentPath]
+            elif subsetSum == target:
+                paths[currentPath] = backtrack(0,k-1,0)
+                return paths[currentPath]
+            for j in range(i,len(nums)):
+                if used[j] or subsetSum+nums[j]>target:
+                    continue
+                used[j] = True
+                if backtrack(j,k,subsetSum+nums[j]):
+                    return True
+                used[j] = False
+            paths[currentPath] = False
+            return False
+        
+        return backtrack(0,k,0)

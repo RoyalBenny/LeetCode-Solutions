@@ -1,0 +1,12 @@
+#T:O(NM) S:O(1)
+class Solution:
+    def strStr(self, h: str, n: str) -> int:
+        for i in range(len(h)-len(n)+1):
+            if h[i] != n[0]: continue
+            isPresent = True
+            for j in range(i,i+len(n)):
+                if h[j] != n[j-i]:
+                    isPresent = False
+            if isPresent:
+                return i
+        return -1

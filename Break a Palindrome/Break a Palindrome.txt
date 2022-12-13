@@ -1,0 +1,25 @@
+# Solution Roval T:O(N) S:O(1)
+# 10-10-2022
+
+class Solution:
+    def breakPalindrome(self, palindrome: str) -> str:
+        length = len(palindrome)
+        if length == 1:
+            return ""
+        for i in range(length//2):
+            if palindrome[i]=='a':
+                continue
+            return palindrome[:i] + 'a' + palindrome[i+1:]
+        return palindrome[:-1]+'b'
+
+#T:O(N) S:O(N)
+class Solution:
+    def breakPalindrome(self, palindrome: str) -> str:
+        plen = len(palindrome)
+        if plen == 1:
+            return ""
+        for i,val in enumerate(palindrome):
+            if val == 'a': continue
+            if i == plen//2 and plen!=2: break
+            return palindrome[:i]+'a'+palindrome[i+1:]
+        return palindrome[:plen-1]+'b'

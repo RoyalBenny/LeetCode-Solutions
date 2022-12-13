@@ -1,0 +1,93 @@
+#T: O(E) S: O(V)
+from typing import (
+    List,
+)
+
+class Solution:
+    def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
+        # write your code here
+        parent = [i for i in range(n)]
+        rank = [1]*n
+
+        def findParent(node):
+            while parent[node]!=node:
+                node = parent[node]
+            return node
+    
+        for i,j in edges:
+            iP = findParent(i)
+            jP = findParent(j)
+            if iP == jP:
+                return False
+            if rank[iP]>=rank[jP]:
+                parent[jP] = iP
+                rank[iP]+=rank[jP]
+            else:
+                parent[iP] = jP
+                rank[jP]+=rank[iP] 
+        count = 0
+        for index,val in enumerate(parent):
+            if index==val:
+                count+=1
+        return True if count == 1 else False
+
+#Time: O(v+e)
+#Space: O(v+e)
+#graph
+#https://www.lintcode.com/problem/178/description
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param n: An integer
+    @param edges: a list of undirected edges
+    @return: true if it's a valid tree, or false
+    """
+    def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
+        # write your code here
+        
+    
+        def checkgraph(edges, n):
+
+        # Write your code here
+        # Return a boolean variable 'True' or 'False' denoting the answer
+            if n == 1:
+                return True
+            
+            visited = [False]*n
+            adjList = createList(edges)
+            if len(adjList.keys()) !=n:
+                return False
+            stack = [(0,-1)]
+            while stack:
+                node,p = stack.pop(-1)
+                visited[node] = True
+                for i in adjList[node]:
+                    if i == p:
+                        continue
+                    if visited[i]:
+                        return False
+                    stack.append((i,node))
+            count = 0
+            for i in visited:
+                if not i:
+                    return False
+            return True
+        
+        def createList(edges):
+            adjList = dict()
+            def addNode(n1,n2,adjList):
+                if n1 in adjList:
+                    adjList[n1].append(n2)
+                else:
+                    adjList[n1] = [n2]
+            for n1,n2 in edges:
+                addNode(n1,n2,adjList)
+                addNode(n2,n1,adjList)
+            return adjList
+        if not n:
+            return True
+        
+        return checkgraph(edges,n)

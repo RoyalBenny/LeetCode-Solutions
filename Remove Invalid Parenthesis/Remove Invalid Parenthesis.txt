@@ -1,0 +1,38 @@
+#T: O(2^N) S:O(2^N)
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def minRemoval(s):
+            left = right = 0
+            for i in s:
+                if i == '(':
+                    left+=1
+                elif left and i== ')':
+                    left-=1
+                elif i == ')':
+                    right+=1
+            return (left,right)
+      
+        def backtrack(leftS,rightS,openR,closeR):
+            if leftS+rightS in visited:
+                return
+            visited.add(leftS+rightS)
+            if openR==0 and closeR == 0:
+                l,r = minRemoval(leftS+rightS)
+                if l+r==0:
+                    output.append(leftS+rightS)
+                return
+            for i in range(len(rightS)):
+                if rightS[i] == '(' and openR:
+                    backtrack(leftS,rightS[i+1:],openR-1,closeR)
+                elif rightS[i] == ")" and closeR:
+                    backtrack(leftS,rightS[i+1:],openR,closeR-1)
+                leftS+=rightS[i]
+            return
+        
+        visited = set()
+        output = []
+        openR,closeR = minRemoval(s)
+        if openR+closeR == 0:
+            return [s]
+        backtrack("",s,openR,closeR)   
+        return output

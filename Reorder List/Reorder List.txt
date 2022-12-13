@@ -1,0 +1,28 @@
+#T: O(N) S: O(N)
+#https://leetcode.com/problems/reorder-list/
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        def swapNode(n1,n2):
+            adj = n1.next
+            n1.next = n2
+            n2.next = adj
+        nodes = []
+        node = head
+        while node:
+            nodes.append(node)
+            node = node.next
+        
+        l,r = 0,len(nodes)-1
+        while l<r:
+            swapNode(nodes[l],nodes[r])
+            l+=1
+            r-=1
+        nodes[l].next = None

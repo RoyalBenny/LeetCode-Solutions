@@ -1,0 +1,44 @@
+#T: O(N) S:O(1)
+#12/09/2022
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sum = output = nums[0]
+        for i in nums[1:]:
+            sum = max(sum+i,i)
+            output = max(output,sum)
+        return output
+
+#T: O(N) S:O(1)
+#12/09/2022
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        output = float('-inf')
+        left =0
+        while left<len(nums):
+            output = max(output,nums[left])
+            sum = 0
+            while left<len(nums) and sum+nums[left]>0:
+                sum+=nums[left]
+                output = max(sum,output)
+                left+=1
+            left+=1
+        return output
+
+#Time: O(N)
+#Space: O(1)
+#Kadane's algo
+#https://leetcode.com/problems/maximum-subarray/
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sum,i = 0,0
+        maxSum = float('-Inf')
+        while i < len(nums):
+            if sum>=0:
+                sum+=nums[i]
+                maxSum = max(maxSum,sum)
+            else:
+                maxSum = max(maxSum,nums[i])
+                sum = nums[i]
+            i+=1
+        return maxSum
+        

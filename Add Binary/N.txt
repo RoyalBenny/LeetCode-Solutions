@@ -1,0 +1,50 @@
+#T: O(N) S: O(N)
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        carry = 0
+        aLen = len(a)-1
+        bLen = len(b)-1
+        output = ""
+        while aLen>=0 and bLen>=0:
+            sumVal = int(a[aLen])+int(b[bLen])+carry
+            if sumVal<=1:
+                output = str(sumVal)+output
+                carry = 0
+            elif sumVal == 2:
+                output = '0'+output
+                carry = 1
+            else:
+                output = '1'+output
+                carry = 1
+            aLen,bLen = aLen-1, bLen -1
+        
+        while aLen>=0:
+            sumVal = int(a[aLen])+carry
+            if sumVal <= 1:
+                output = str(sumVal)+output
+                carry = 0
+            else:
+                output = '0'+output
+                carry = 1
+            aLen-=1
+        
+        while bLen>=0:
+            sumVal = int(b[bLen])+carry
+            if sumVal <= 1:
+                output = str(sumVal)+output
+                carry = 0
+            else:
+                output = '0'+output
+                carry = 1
+            bLen-=1
+        if carry:
+            output = '1'+output
+        return output
+
+Time: O(N)
+Space: O(1)
+#string, binary
+#https://leetcode.com/problems/add-binary/
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        return bin(int(a,2)+int(b,2))[2:]

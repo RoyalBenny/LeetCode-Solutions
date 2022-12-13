@@ -1,0 +1,42 @@
+
+#T:O(N) S:O(N)
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        output = []
+        def justify(ws,length):
+            if len(ws) == 1:
+                output.append(ws[0]+' '*(maxWidth-length))
+                return
+            
+            space = (maxWidth-length)//(len(ws)-1)
+            nonEvenly = (maxWidth-length)%(len(ws)-1)
+            string = ""
+            for i in ws[:-1]:
+                string+=(i+(' '*space)+ (' ' if nonEvenly>0 else ''))
+                nonEvenly-=1
+            string+=ws[-1]
+            output.append(string)
+            return
+        word = []
+        length = 0
+        for i in words:
+            if length+len(i)+len(word)-1>=maxWidth:
+                justify(word,length)
+                word = []
+                length = 0
+            word.append(i)
+            length+=len(i)
+        string = " ".join(word)
+        string+=(' '*(maxWidth-length-(len(word)-1)))
+        output.append(string)
+        return output
+'''
+["This", "is", "an", "example", "of", "text", "justification."]
+16
+["What","must","be","acknowledgment","shall","be"]
+16
+["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"]
+20
+["ask","not","what","your","country","can","do","for","you","ask","what","you","can","do","for","your","country"]
+16
+'''

@@ -1,0 +1,22 @@
+#T: O(NM) S:O(NM)
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+
+        l = t = 0
+        r = len(matrix[0])-1
+        b = len(matrix)-1
+        output  = []
+        while len(output) != len(matrix)*len(matrix[0]):
+            for i in range(l,r+1):
+                output.append(matrix[t][i])
+            for i in range(t+1,b+1):
+                output.append(matrix[i][r])
+            if t!=b:
+                for i in range(r-1,l-1,-1):
+                    output.append(matrix[b][i])
+            if l!=r:
+                for i in range(b-1,t,-1):
+                    output.append(matrix[i][l])
+            l+=1;r-=1;t+=1;b-=1
+        
+        return output

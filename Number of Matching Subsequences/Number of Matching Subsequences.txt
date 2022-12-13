@@ -1,0 +1,17 @@
+class Solution:
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        charDict = dict([(i,[]) for i in s])
+        for w in words:
+            if w[0] in charDict:
+                charDict[w[0]].append(w)
+        count = 0
+        for c in s:
+            word = charDict[c]
+            charDict[c] = []
+            for w in word:
+                if len(w) == 1:
+                    count+=1
+                elif w[1] in charDict:
+                    charDict[w[1]].append(w[1:])
+        return count
+                    

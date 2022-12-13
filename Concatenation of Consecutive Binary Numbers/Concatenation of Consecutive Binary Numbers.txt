@@ -1,0 +1,5 @@
+#T:O(NlogN) S:O(NlogN)
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        binary = [bin(b)[2:] for b in range(1,n+1)]
+        return int('0b'+"".join(binary),2)%(10**9+7)

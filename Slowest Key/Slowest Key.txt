@@ -1,0 +1,14 @@
+#T:O(N) S:o(1)
+class Solution:
+    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
+        maxTime = releaseTimes[0]
+        maxKey = keysPressed[0]
+        prevTime = maxTime
+        for time,key in zip(releaseTimes[1:],keysPressed[1:]):
+            if time-prevTime>maxTime:
+                maxTime = time-prevTime
+                maxKey = key
+            elif time-prevTime==maxTime and key>maxKey:
+                maxKey = key
+            prevTime = time
+        return maxKey

@@ -1,0 +1,14 @@
+#T:O(N) S:O(N)
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        hashmap = defaultdict(int)
+        hashmap[0] = 1
+        total = 0
+        count = 0
+        for i in range(len(nums)):
+            total += nums[i]
+            diff = total-k
+            if diff in hashmap:
+                count+=hashmap[diff]
+            hashmap[total]+=1
+        return count

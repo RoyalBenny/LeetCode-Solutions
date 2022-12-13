@@ -1,0 +1,18 @@
+#T: O(N!) S: O(N!)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        output =[]
+        visited = [False]*len(nums)
+        
+        def dfs(permutations):
+            if len(permutations) == len(nums):
+                output.append(permutations)
+                return
+            for i in range(len(nums)):
+                if visited[i]:
+                    continue
+                visited[i] = True
+                dfs(permutations+[nums[i]])
+                visited[i] = False
+        dfs([])
+        return output

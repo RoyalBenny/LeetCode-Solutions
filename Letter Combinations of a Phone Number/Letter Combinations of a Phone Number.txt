@@ -1,0 +1,18 @@
+#T: O(4^N) S: O(4^N)
+#backtracking
+#https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        chars = {"2":"abc","3":"def","4":"ghi","5":"jkl","6":"mno","7":"pqrs","8":"tuv","9":"wxyz"}
+        output = []
+        def backtrack(s,pos,n):
+            if pos == n:
+                output.append(s)
+                return
+            for i in chars[digits[pos]]:
+                backtrack(s+i,pos+1,n)
+        if not digits:
+            return output
+        backtrack("",0,len(digits))
+        
+        return output

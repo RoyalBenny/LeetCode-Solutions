@@ -1,0 +1,17 @@
+#Time: O(N)
+#Space: O(N)
+#string
+#https://leetcode.com/problems/valid-parentheses/
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        openDic = {')':'(','}':'{',']':'['}
+        openParantheses = ('(','[','{')
+        for i in s:
+            if i in openParantheses:
+                stack.append(i)
+            elif not stack or stack.pop(-1) != openDic[i]:
+                return False
+        return len(stack) == 0
+                
+                

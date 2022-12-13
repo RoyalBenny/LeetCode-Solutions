@@ -1,0 +1,14 @@
+#T: O(N) S:O(1)
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        currentJump = 0
+        nextJump = 0
+        jumpCount = 0
+        for i,val in enumerate(nums):
+            if i>currentJump:
+                currentJump = nextJump
+                nextJump = i+val
+                jumpCount+=1
+            elif i+val>nextJump:
+                nextJump = i+val
+        return jumpCount

@@ -1,0 +1,22 @@
+#T: O(Q) S:O(Q)
+class Solution:
+    def sumEvenAfterQueries(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        output = []
+        evenSum = 0
+        
+        def isEven(n):
+            return n%2==0
+        
+        for n in nums:
+            if isEven(n):
+                evenSum+=n
+                
+        for val,index in queries:
+            if isEven(nums[index]):
+                evenSum-=nums[index]
+            nums[index]+=val
+            if isEven(nums[index]):
+                evenSum+=nums[index]
+            output.append(evenSum)
+        
+        return output

@@ -1,0 +1,19 @@
+#T:O(NM) S:O(NM)
+class Solution:
+    def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        queue = deque([])
+        X,Y = len(maze),len(maze[0])
+        queue.append((entrance,0))
+        maze[entrance[0]][entrance[1]] = '+'
+        dire = [[0,-1],[0,1],[1,0],[-1,0]]
+        while queue:
+            (x,y),step = queue.popleft()
+            for dx,dy in dire:
+                tx,ty = x+dx,y+dy
+                if (not 0<=tx<X or not 0<=ty<Y):
+                    if not [x,y] == entrance:
+                        return step
+                elif maze[tx][ty] == '.':
+                    maze[tx][ty] = '+'
+                    queue.append(([tx,ty],step+1))
+        return -1

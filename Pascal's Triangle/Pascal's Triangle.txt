@@ -1,0 +1,14 @@
+#T: O(N^2) S:O(N^2)
+#https://leetcode.com/problems/pascals-triangle/
+#dynamic programming
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        count = 1
+        output = [[1]]
+        while count < numRows:
+            output.append([1])
+            for i in range(len(output[-2])-1):
+                output[-1].append(output[-2][i]+output[-2][i+1])
+            output[-1].append(1)
+            count+=1
+        return output

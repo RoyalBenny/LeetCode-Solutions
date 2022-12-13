@@ -1,0 +1,13 @@
+#T:N S:O(N)
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        heights.append(0)
+        maxH = 0
+        stack = []
+        for index,height in enumerate(heights):
+            start = index
+            while stack and stack[-1][0]>height:
+                h,start = stack.pop(-1)
+                maxH = max(maxH,h*(index-start))
+            stack.append((height,start))
+        return maxH

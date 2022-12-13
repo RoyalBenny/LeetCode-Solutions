@@ -1,0 +1,32 @@
+#Time: O(N)
+#Space: O(N)
+#string
+#https://leetcode.com/problems/add-strings/
+class Solution:
+    def addStrings(self, n1: str, n2: str) -> str:
+        i,j = len(n1)-1,len(n2)-1
+        output,carry,tens = 0,0,1
+        
+        while i>=0 and j>=0:
+            curr = int(n1[i])+int(n2[j])+carry
+            output = tens*(curr%10)+output
+            carry = curr//10
+            tens,i,j  = tens*10,i-1,j-1
+        
+        while i>=0 :
+            curr = int(n1[i])+carry
+            output = tens*(curr%10)+output
+            carry = curr//10
+            tens,i  = tens*10,i-1
+        
+        while j>=0 :
+            curr = int(n2[j])+carry
+            output = tens*(curr%10)+output
+            carry = curr//10
+            tens,j  = tens*10,j-1
+        
+        return str(output) if not carry else str((tens*carry)+output)
+        
+        
+        
+        

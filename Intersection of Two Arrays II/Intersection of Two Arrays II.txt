@@ -1,0 +1,14 @@
+#Time: O(n+m)
+#Space:(O(n)
+from collections import Counter
+class Solution:
+    def intersect(self, num1: List[int], num2: List[int]) -> List[int]:
+        if not num1 or not num2:
+            return []
+        num1C = Counter(num1)
+        output = []
+        for i in num2:
+            if i in num1C and num1C[i]:
+                output.append(i)
+                num1C[i]-=1
+        return output

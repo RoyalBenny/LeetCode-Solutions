@@ -1,0 +1,29 @@
+#T:O(N) S:O(N)
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        dom = list(dominoes)
+        q = deque()
+        for index, dire in enumerate(dom):
+            if dire !='.': q.append((index,dire))
+        
+        while q:
+            i,dire = q.popleft()
+            if dire == 'L' and i>0 and dom[i-1] == '.':
+                dom[i-1] = 'L'
+                q.append((i-1,dire))
+            elif dire == 'R':
+                if i+1<len(dom) and dom[i+1] == '.':
+                    if i+2<len(dom) and dom[i+2] == 'L':
+                        q.popleft()
+                    else:
+                        q.append((i+1,'R'))
+                        dom[i+1] = 'R'
+        return "".join(dom)
+'''
+"RR.L"
+".L.R...LR..L.."
+".....LR"
+"RL...RR.LR...L"
+".L.R."
+"L.....RR.RL.....L.R."
+'''

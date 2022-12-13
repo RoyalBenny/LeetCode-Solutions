@@ -1,0 +1,13 @@
+#T: O(N^2) S:O(N^2) TLE
+class Solution:
+    def maximumScore(self, nums: List[int], multipliers: List[int]) -> int:
+        memo = {}
+        def backtrack(index,l,r):
+            if index>=len(multipliers):
+                return 0
+            if (index,l) in memo:
+                return memo[(index,l)]
+            memo[(index,l)] = (max(multipliers[index]*nums[l]+backtrack(index+1,l+1,r),
+                        multipliers[index]*nums[r]+backtrack(index+1,l,r-1)))
+            return memo[(index,l)]
+        return backtrack(0,0,len(nums)-1)

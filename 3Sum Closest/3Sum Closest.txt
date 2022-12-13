@@ -1,0 +1,67 @@
+#T: O(NlogN) S:O(1)
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest = float('inf')
+        start = 0
+        end = len(nums)-1
+        while start<end:
+            left = start+1
+            right = end-1
+            currentClosest = float('inf')
+            while left<=right:
+                mid = (left+right)//2
+                sum3 = nums[start]+nums[end]+nums[mid]
+                
+                if abs(target-sum3)<abs(target-currentClosest):
+                    currentClosest = sum3
+                if sum3>target:
+                    right = mid-1
+                else:
+                    left = mid+1
+            if abs(target-currentClosest)<abs(target-closest):
+                    closest = currentClosest
+            if currentClosest>target:
+                end-=1
+            else:
+                start+=1
+        return closest
+
+#T:O(N^2) S:O(1)
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest = float('inf')
+        for i in range(len(nums)):
+            left = i+1
+            right = len(nums)-1
+            while left<right:
+                sum3 = nums[i]+nums[left]+nums[right]
+                if abs(target-sum3)<abs(target-closest):
+                    closest = sum3
+                if sum3==target:
+                    return target
+                if sum3>target:
+                    right-=1
+                else:
+                    left+=1
+        return closest
+#Brute Force 
+#T: O(3^N) S:O(3^N)
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        visited = [False]*len(nums)
+        closest = float('inf')
+        def backtrack(count,total):
+            nonlocal closest
+            if count==0:
+                if abs(target-total)<abs(target-closest):
+                    closest = total
+                return
+            for i,val in enumerate(nums):
+                if not visited[i]:
+                    visited[i] = True
+                    backtrack(count-1,total+val)
+                    visited[i] = False
+        backtrack(3,0)
+        return closest

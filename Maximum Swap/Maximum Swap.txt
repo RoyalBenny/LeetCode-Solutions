@@ -1,0 +1,21 @@
+# T: O(logN) S: O(logN)
+from heapq import _heapify_max,_heappop_max
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        numList = list(str(num))
+        heap = []
+        for index,val in enumerate(numList):
+            heap.append((int(val),index))
+        _heapify_max(heap)
+        for index,val in enumerate(numList):
+            while heap and heap[0][1]<index:
+                _heappop_max(heap)
+            if not heap:
+                    break
+            if heap[0][0] == int(val):
+                continue
+            value,pos = _heappop_max(heap)
+            if pos != index and value> int(val):
+                numList[index],numList[pos] = str(value),val
+                return int("".join(numList))
+        return num

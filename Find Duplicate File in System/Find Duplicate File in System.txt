@@ -1,0 +1,18 @@
+#T: O(NM) S:O(NM)
+class Solution:
+    def findDuplicate(self, paths: List[str]) -> List[List[str]]:
+        files = defaultdict(list)
+        
+        for path in paths:
+            path = path.split(" ")
+            dic = path[0]
+            for file in path[1:]:
+                i=0
+                while file[i]!="(":
+                    i+=1
+                files[file[i+1:len(file)-1]].append(dic+'/'+file[:i])
+        output = []
+        for key in files:
+            if len(files[key])>1:
+                output.append(files[key])
+        return output

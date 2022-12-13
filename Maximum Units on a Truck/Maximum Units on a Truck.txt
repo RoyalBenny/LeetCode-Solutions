@@ -1,0 +1,30 @@
+# Solution Roval T:O(N + NlogN) S:O(N)
+# 31-10-2022
+
+class Solution:
+    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+        ratio = [(boxTypes[i][1],i) for i in range(len(boxTypes))]
+        ratio.sort(key = lambda x:x[0],reverse = True)
+        total = 0
+        for units,index in ratio:
+            if truckSize<=0:
+                return total
+            total+= units*min(truckSize,boxTypes[index][0])
+            truckSize-=boxTypes[index][0]
+        return total
+
+#T:O(NlogN) S:O(N)
+from heapq import heapify,heappop
+class Solution:
+    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+        units = [(-p,-n) for n,p in boxTypes]
+        total = 0
+        heapify(units)
+        while units and truckSize>=-units[0][1]:
+            u,n = heappop(units)
+            total+=u*n
+            truckSize+=n
+        if units:
+            u,n = heappop(units)
+            total += -u*(min(truckSize,-n))
+        return total
